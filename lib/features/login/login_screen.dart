@@ -84,7 +84,7 @@ class LogInScreen extends StatelessWidget {
   }
 
   Widget _submitButton(BuildContext context) {
-    final LoginController _controller = Get.find();
+    final LoginController controller = Get.find();
     return Container(
       margin: const EdgeInsets.all(15),
       child: ElevatedButton(
@@ -93,8 +93,7 @@ class LogInScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
         ),
         onPressed: () {
-          print('buttonpressed');
-          _controller.loginWithEmail();
+          controller.onTappedSubmit();
         },
         child: const  Text(
           "Log in",

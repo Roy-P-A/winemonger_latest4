@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'controllers/app_controller.dart';
+import 'managers/hive/hive.dart';
 import 'utils/routes.dart';
 import 'utils/theme/app_theme.dart';
+import 'utils/theme/theme.dart';
+import 'utils/theme/theme_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +13,12 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-void initialize() {}
+void initialize() {
+  Get.put(HiveHelper(), permanent: true);
+  Get.put(AppController(), permanent: true);
+  Get.put(ThemeController(), permanent: true);
+  Get.put(ColorController(), permanent: true);
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

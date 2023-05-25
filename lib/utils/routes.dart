@@ -16,7 +16,7 @@ import '../features/tastings/tastings.dart';
 List<GetPage> routes() => [
       GetPage(
           name: "/",
-          page: () => DashboardScreen(),
+          page: () => const SplashScreen(),
           transition: Transition.cupertino),
       GetPage(
           name: "/dashboard",

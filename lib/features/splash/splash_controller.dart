@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-// import 'package:winemonger/controllers/app_controller.dart';
-// import 'package:winemonger/managers/hive/hive.dart';
+import 'package:winemonger/controllers/app_controller.dart';
+import 'package:winemonger/managers/hive/hive.dart';
 
 class SplashController extends GetxController {
   @override
@@ -12,12 +12,12 @@ class SplashController extends GetxController {
   checkIfUserLoggedin() async {
     await Future.delayed(const Duration(milliseconds: 3000));
 
-    // final bool isAlreadyRun = await HiveHelper.to.isAppAlreadyRun();
+    final bool isAlreadyRun = await HiveHelper.to.isAppAlreadyRun();
 
-    // if (isAlreadyRun) {
-    //   AppController.to.loggedIn();
-    // } else {
-    //   AppController.to.notLoggedIn();
-    // }
+    if (isAlreadyRun) {
+      AppController.to.loggedIn();
+    } else {
+      AppController.to.notLoggedIn();
+    }
   }
 }
