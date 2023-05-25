@@ -1,0 +1,1 @@
+export 'manufacturers_screen.dart';
