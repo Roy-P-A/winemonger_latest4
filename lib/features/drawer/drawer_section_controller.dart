@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:winemonger/mixins/user_state_mixin.dart';
 
-class DrawerController1 extends GetxController with UserStateMixin {
+class DrawerSectionController extends GetxController with UserStateMixin {
   final _firstname = "".obs;
   String get firstname => _firstname.value;
 

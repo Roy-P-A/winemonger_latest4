@@ -17,7 +17,10 @@ List<GetPage> routes() => [
       GetPage(
           name: "/",
           page: () => const SplashScreen(),
-          transition: Transition.cupertino),
+          //transition: Transition.cupertino
+          
+          
+          ),
       GetPage(
           name: "/dashboard",
           page: () => const DashboardScreen(),

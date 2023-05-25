@@ -7,7 +7,7 @@ mixin SnackbarMixin on GetxController {
     Flushbar(
       title: title,
       message: message,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       backgroundColor: Colors.red,
       margin: const EdgeInsets.all(10),
       borderRadius: BorderRadius.circular(10),
@@ -19,7 +19,7 @@ mixin SnackbarMixin on GetxController {
     Flushbar(
       title: title,
       message: message,
-      duration: Duration(seconds: 3),
+      duration: const Duration(seconds: 3),
       backgroundColor: Colors.green,
       margin: const EdgeInsets.all(10),
       borderRadius: BorderRadius.circular(10),

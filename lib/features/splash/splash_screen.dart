@@ -13,8 +13,7 @@ class SplashScreen extends StatelessWidget {
         init: SplashController(),
         builder: (controller) {
           return Scaffold(
-            backgroundColor:
-                Theme.of(context).colorScheme.dashboardbackgroundColor,
+            backgroundColor:Theme.of(context).colorScheme.dashboardbackgroundColor,
             resizeToAvoidBottomInset: false,
             body: SafeArea(
               child: Center(

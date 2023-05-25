@@ -7,7 +7,7 @@ final ThemeController _controller = Get.put(ThemeController());
 
 class ColorController extends GetxController {
   var backcolor =
-      (_controller.isdark.value ? Color(0xfff8f8f8) : Color(0xfff8f8f8)).obs;
+      (_controller.isdark.value ? const Color(0xfff8f8f8) : const Color(0xfff8f8f8)).obs;
 }
 
 extension ColorSchemeExtension on ColorScheme {

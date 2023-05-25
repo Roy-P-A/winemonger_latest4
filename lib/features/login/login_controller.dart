@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// ignore: depend_on_referenced_packages
 import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 
@@ -43,11 +44,6 @@ class LoginController extends GetxController {
         await box.put('lastname', '${data['lastname']}');
         await box.put('userlevel', '${data['user_level']}');
         await box.put('cookie', '$cookies');
-        print(box.get('apikey'));
-        print(box.get('firstname'));
-        print(box.get('lastname'));
-        print(box.get('userlevel'));
-        print(box.get('cookie'));
         _message.value = 'Login successfully';
         await Future.delayed(const Duration(milliseconds: 500),(){
           Get.offAllNamed("/dashboard");

@@ -29,7 +29,7 @@ class BottomAppBarSection extends StatelessWidget {
                 Tooltip(
                   message: 'Dashboard',
                   child: InkWell(
-                      child: Container(
+                      child: SizedBox(
                         child: SvgPicture.asset(
                           'assets/svgs/home.svg',
                           color: Theme.of(context).colorScheme.bottomTextColor,
@@ -42,7 +42,7 @@ class BottomAppBarSection extends StatelessWidget {
                 Tooltip(
                   message: 'view orders',
                   child: InkWell(
-                      child: Container(
+                      child: SizedBox(
                         child: SvgPicture.asset(
                           'assets/svgs/view.svg',
                           color: Theme.of(context).colorScheme.bottomTextColor,

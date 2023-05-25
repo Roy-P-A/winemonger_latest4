@@ -1,20 +1,16 @@
 import 'dart:io';
-
 import 'package:get/get.dart';
+// ignore: depend_on_referenced_packages
 import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart' as pathProvider;
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:winemonger/models/user_model.dart';
 
 class HiveHelper extends GetxController {
   static HiveHelper get to => Get.find();
-  @override
-  void onInit() {
-    //hiveHelper();
-    super.onInit();
-  }
 
   hiveHelper() async {
-    Directory directory = await pathProvider.getApplicationDocumentsDirectory();
+    Directory directory =
+        await path_provider.getApplicationDocumentsDirectory();
     Hive.init(directory.path);
     if (!Hive.isAdapterRegistered(UserModelAdapter().typeId)) {
       Hive.registerAdapter(UserModelAdapter());

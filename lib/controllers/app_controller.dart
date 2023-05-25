@@ -26,18 +26,14 @@ class AppController extends GetxController {
   }
 
   loggedIn() {
-    print('loggedIn');
     isLogged.value = LoggedStatus.loggedIn;
   }
 
   notLoggedIn() {
-    print('notloggedIn');
     isLogged.value = LoggedStatus.notLoggedIn;
   }
 
   loggedOut() {
-    print('loggedOut');
-    //isLogged.value = LoggedStatus.notLoggedIn;
     Get.offAllNamed('/login');
   }
 }

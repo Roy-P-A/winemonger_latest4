@@ -45,7 +45,7 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             child: SvgPicture.asset(
                                 '${DashboardList().dashboardList[index].icon}',
                                 color: Theme.of(context)

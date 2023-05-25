@@ -10,7 +10,7 @@ import 'package:winemonger/utils/theme/theme_constants.dart';
 
 class DrawerSectionScreen extends StatelessWidget with UserStateMixin {
   DrawerSectionScreen({Key? key}) : super(key: key);
-  final DrawerController1 _controller = Get.put(DrawerController1());
+  final DrawerSectionController _controller = Get.put(DrawerSectionController());
 
   @override
   Widget build(BuildContext context) {
