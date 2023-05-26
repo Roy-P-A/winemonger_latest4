@@ -1,5 +1,7 @@
 
-import 'package:collection/collection.dart';
+
+
+
 
 import 'dart:convert';
 
@@ -7,12 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
+import '../../../../applogin/app_string.dart';
 import '../../../../mixins/snackbar_mixin.dart';
 
 
 import 'package:http/http.dart' as http;
 
 import '../../../../models/customer_model.dart';
+import '../../../../models/warehouse_model.dart';
+import 'widgets/warehouse/warehouse_widget.dart';
 
 
 class WholeSaleCreateController extends GetxController with SnackbarMixin {
@@ -28,8 +33,8 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   var CustomerModelEntity =
       CustomerModel(data1: List<Data1>.empty(growable: true)).obs;
 
-//   var WarehouseModelEntity =
-//       WarehouseModel(data: List<Datum>.empty(growable: true)).obs;
+  var WarehouseModelEntity =
+      WarehouseModel(data: List<Datum>.empty(growable: true)).obs;
 //   var WarehouseModelEntity2 =
 //       WareHouseModelnew(data: List<Datu>.empty(growable: true)).obs;
 
@@ -66,7 +71,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //   final addadjustments = true.obs;
 
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
-//   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
 //   final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
 //   final GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
 //   final GlobalKey<FormState> formKey5 = GlobalKey<FormState>();
@@ -106,11 +111,11 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //         ManuFactureModel(dataone: List<DatumOne>.empty(growable: true));
 //   }
 
-//   var users = <HouseUser>[HouseUser("0", "select warehouse")].obs;
-//   var warehouseselected = "0".obs;
-//   void setSelected(String value) {
-//     warehouseselected.value = value;
-//   }
+  var users = <HouseUser>[HouseUser("0", "select warehouse")].obs;
+  var warehouseselected = "0".obs;
+  void setSelected(String value) {
+    warehouseselected.value = value;
+  }
 
 //   var totalValue = (0).obs;
 
@@ -136,12 +141,12 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     return null;
   }
 
-//   String? warehouseNamevalidator(String value) {
-//     if (value == null || warehouseselected.value == '0') {
-//       return 'selected warehouse';
-//     }
-//     return null;
-//   }
+  String? warehouseNamevalidator(String value) {
+    if (value == null || warehouseselected.value == '0') {
+      return 'selected warehouse';
+    }
+    return null;
+  }
 
 //   String? manufacturerNameValidator(String value) {
 //     if (value == null || manufactureselected.value == '0') {
@@ -173,34 +178,34 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
 //   final indexf = "".obs;
 
-//   @override
-//   void onInit() async {
-//     // await customerDetailApi('a');
+  @override
+  void onInit() async {
+    // await customerDetailApi('a');
 
-//     // manuFactureApi();
+    // manuFactureApi();
 
-//     // filterProductApi();
-//     // productButtonApi();
+    // filterProductApi();
+    // productButtonApi();
 
-//     // await addAdjustmentOrderconfirmApi("");
+    // await addAdjustmentOrderconfirmApi("");
 
-//     super.onInit();
-//     await WareHouseApi();
-//     await adjustmentlistApi();
-//     // addToOrdersApi();
-//   }
+    super.onInit();
+    await WareHouseApi();
+    // await adjustmentlistApi();
+    // addToOrdersApi();
+  }
 
-//   @override
-//   void onClose() {
-//     customerController1.value.dispose();
-//     customerController2.value.dispose();
-//     warehouseselected.value = '0';
-//     manufactureselected.value = '0';
-//     productController.value.dispose();
-//     productController1.value.dispose();
-//     super.onClose();
-//     // update();
-//   }
+  @override
+  void onClose() {
+    customerController1.value.dispose();
+    customerController2.value.dispose();
+  warehouseselected.value = '0';
+    // manufactureselected.value = '0';
+    // productController.value.dispose();
+    // productController1.value.dispose();
+    super.onClose();
+    update();
+  }
 
 //   @override
 //   void dispose() {
@@ -216,50 +221,50 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
 // //---------------oninit call of controller-----------------\\
 
-//   Future<void> WareHouseApi() async {
-//     var baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/list/warehouses';
-//     var headers = {
-//       'APIKEY': apiKey,
-//       'Cookie': cooKie,
-//     };
-//     var url = Uri.http(baseUrl, endpoint);
+  Future<void> WareHouseApi() async {
+    var baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/list/warehouses';
+    var headers = {
+      'APIKEY': apiKey ,
+      'Cookie': cooKie,
+    };
+    var url = Uri.http(baseUrl, endpoint);
 
-//     // Await the http get response, then decode the json-formatted response.
-//     try {
-//       var response = await http.get(
-//         url,
-//         headers: headers,
-//       );
-//       print(response);
-//       if (response.statusCode == 200) {
-//         WarehouseModelEntity.value =
-//             WarehouseModel.fromJson(jsonDecode(response.body));
-//         for (int i = 0; i < WarehouseModelEntity.value.data.length; i++) {
-//           users.add(HouseUser(
-//               WarehouseModelEntity.value.data[i].warehouseId ?? "",
-//               WarehouseModelEntity.value.data[i].warehouseName ?? ""));
-//           //   }
-//           // if (response.statusCode == 200) {
-//           //   WarehouseModelEntity2.value =
-//           //       WareHouseModelnew.fromJson(jsonDecode(response.body));
-//           //   for (int i = 0; i < WarehouseModelEntity2.value.data.length; i++) {
-//           //     users.add(HouseUser(
-//           //         WarehouseModelEntity2.value.data[i].warehouseId ?? "",
-//           //         WarehouseModelEntity2.value.data[i].warehouseSku ?? ""));
-//         }
+    // Await the http get response, then decode the json-formatted response.
+    try {
+      var response = await http.get(
+        url,
+        headers: headers,
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        WarehouseModelEntity.value =
+            WarehouseModel.fromJson(jsonDecode(response.body));
+        for (int i = 0; i < WarehouseModelEntity.value.data.length; i++) {
+          users.add(HouseUser(
+              WarehouseModelEntity.value.data[i].warehouseId ?? "",
+              WarehouseModelEntity.value.data[i].warehouseName ?? ""));
+          //   }
+          // if (response.statusCode == 200) {
+          //   WarehouseModelEntity2.value =
+          //       WareHouseModelnew.fromJson(jsonDecode(response.body));
+          //   for (int i = 0; i < WarehouseModelEntity2.value.data.length; i++) {
+          //     users.add(HouseUser(
+          //         WarehouseModelEntity2.value.data[i].warehouseId ?? "",
+          //         WarehouseModelEntity2.value.data[i].warehouseSku ?? ""));
+        }
 
-//         // print('success');
-//       } else {
-//         // print('failed');
-//         throw Exception('failed to load');
-//       }
-//       // print(WarehouseModelEntity.value.toJson());
-//     } catch (e) {
-//       //print(() => e.toString());
-//     }
-//     update();
-//   }
+        // print('success');
+      } else {
+        // print('failed');
+        throw Exception('failed to load');
+      }
+      // print(WarehouseModelEntity.value.toJson());
+    } catch (e) {
+      //print(() => e.toString());
+    }
+    update();
+  }
 
 //   Future<void> customerDetailApi(value) async {
 //     var baseUrl = 'winemonger.nintriva.com';

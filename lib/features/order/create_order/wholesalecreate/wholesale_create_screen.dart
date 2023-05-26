@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale_create_controller.dart';
 
 import 'widgets/select_customer/select_customer_text_field.dart';
+import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateOrderList extends StatelessWidget {
   WholeSaleCreateOrderList({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class WholeSaleCreateOrderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return  SingleChildScrollView(
       child: Center(
         child: Container(
           margin: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 32),
@@ -28,7 +29,7 @@ class WholeSaleCreateOrderList extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              // WarehouseTextField(),
+             const   WareHouseField (),
               const SizedBox(
                 height: 20,
               ),

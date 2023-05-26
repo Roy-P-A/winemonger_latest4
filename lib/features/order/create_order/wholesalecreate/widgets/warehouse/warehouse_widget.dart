@@ -1,109 +1,111 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:winemonger_sonu/controller/wholesale_controller.dart';
-// import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-// class WareHouseField extends StatelessWidget {
-//   const WareHouseField({Key? key}) : super(key: key);
+import 'package:dropdown_button2/dropdown_button2.dart';
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return GetBuilder<WholeSaleController>(
-//         init: WholeSaleController(),
-//         builder: (controller) {
-//           return Form(
-//             key: controller.formKey2,
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 const Text("WareHouse"),
-//                 const SizedBox(
-//                   height: 10,
-//                 ),
-//                 Container(
-//                   child: DropdownButtonHideUnderline(
-//                     child: Obx(
-//                       () => DropdownButtonFormField2(
-//                         isExpanded: true,
-//                         validator: (value) {
-//                           return controller
-//                               .warehouseNamevalidator(value as String);
-//                         },
-//                         isDense: true,
-//                         autovalidateMode: AutovalidateMode.onUserInteraction,
-//                         decoration: InputDecoration(
-//                             contentPadding:
-//                                 const EdgeInsets.only(left: 10, right: 10),
-//                             focusedBorder: const OutlineInputBorder(
-//                               borderSide: BorderSide(
-//                                   color: Color.fromARGB(255, 115, 214, 120)
-//                                   // Colors.lightBlueAccent
-//                                   ),
-//                             ),
-//                             hintText: "Select warehouse",
-//                             border: OutlineInputBorder(
-//                                 borderSide:
-//                                     const BorderSide(color: Colors.white),
-//                                 borderRadius: BorderRadius.circular(5))),
-//                         items: controller.users
-//                             .map(
-//                               (item) => DropdownMenuItem<String>(
-//                                 value: item.id,
-//                                 child: Text(
-//                                   item.name,
-//                                   // style: DefaultTextStyle.of(context)
-//                                   //     .style
-//                                   //     .copyWith(
-//                                   //         fontStyle: FontStyle.italic),
-//                                   overflow: TextOverflow.ellipsis,
-//                                 ),
-//                               ),
-//                             )
-//                             .toList(),
-//                         icon: const Icon(Icons.keyboard_arrow_down),
-//                         iconSize: 20,
-//                         dropdownMaxHeight: 250,
-//                         itemHeight: 40,
-//                         itemPadding: const EdgeInsets.only(left: 14, right: 14),
-//                         buttonHeight: 52,
-//                         dropdownElevation: 4,
-//                         dropdownPadding: null,
-//                         dropdownDecoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(2),
-//                             border: Border.all(
-//                                 color: Colors.transparent, width: 0)),
-//                         scrollbarAlwaysShow: true,
-//                         scrollbarRadius: const Radius.circular(2),
-//                         scrollbarThickness: 4,
-//                         onChanged: (value) async {
-//                           controller.setSelected(value as String);
-//                           //controller.listRefresh();
+import '../../wholesale_create_controller.dart';
 
-//                           await controller.manuFactureApi();
-//                           print(controller.warehouseselected.value);
-//                         },
-//                         value:
-//                             // value.isNotEmpty ? value: null,
+class WareHouseField extends StatelessWidget {
+  const WareHouseField({Key? key}) : super(key: key);
 
-//                             controller.warehouseselected.value.isNotEmpty
-//                                 ? controller.warehouseselected.value
-//                                 : null,
-//                       ),
-//                     ),
-//                   ),
-//                 )
-//               ],
-//             ),
-//           );
-//         });
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<WholeSaleCreateController>(
+        init: WholeSaleCreateController(),
+        builder: (controller) {
+          return Form(
+            // key: controller.formKey2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text("WareHouse"),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  child: DropdownButtonHideUnderline(
+                    child: Obx(
+                      () => DropdownButtonFormField2(
+                        isExpanded: true,
+                        validator: (value) {
+                          return controller
+                              .warehouseNamevalidator(value as String);
+                        },
+                        isDense: true,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                            contentPadding:
+                                const EdgeInsets.only(left: 10, right: 10),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 115, 214, 120)
+                                  // Colors.lightBlueAccent
+                                  ),
+                            ),
+                            hintText: "Select warehouse",
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    const BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.circular(5))),
+                        items: controller.users
+                            .map(
+                              (item) => DropdownMenuItem<String>(
+                                value: item.id,
+                                child: Text(
+                                  item.name,
+                                  // style: DefaultTextStyle.of(context)
+                                  //     .style
+                                  //     .copyWith(
+                                  //         fontStyle: FontStyle.italic),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        iconSize: 20,
+                        dropdownMaxHeight: 250,
+                        itemHeight: 40,
+                        itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                        buttonHeight: 52,
+                        dropdownElevation: 4,
+                        dropdownPadding: null,
+                        dropdownDecoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(2),
+                            border: Border.all(
+                                color: Colors.transparent, width: 0)),
+                        scrollbarAlwaysShow: true,
+                        scrollbarRadius: const Radius.circular(2),
+                        scrollbarThickness: 4,
+                        onChanged: (value) async {
+                          controller.setSelected(value as String);
+                          //controller.listRefresh();
 
-// class HouseUser {
-//   const HouseUser(this.id, this.name);
-//   final String id;
-//   final String name;
-// }
+                          // await controller.manuFactureApi();
+                          print(controller.warehouseselected.value);
+                        },
+                        value:
+                            
+
+                            controller.warehouseselected.value.isNotEmpty
+                                ? controller.warehouseselected.value
+                                : null,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+}
+
+class HouseUser {
+  const HouseUser(this.id, this.name);
+  final String id;
+  final String name;
+}
 
 
 

@@ -15,7 +15,7 @@ class SelectCustomer extends StatelessWidget {
         init: WholeSaleCreateController(),
         builder: (controller) {
           return Form(
-             key: controller.formKey1,
+            key: controller.formKey1,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -27,8 +27,8 @@ class SelectCustomer extends StatelessWidget {
                 ),
                 Obx(() => TypeAheadFormField(
                       suggestionsBoxVerticalOffset: 0.0,
-                       minCharsForSuggestions: 1,
-                      keepSuggestionsOnLoading:false,
+                      minCharsForSuggestions: 1,
+                      keepSuggestionsOnLoading: false,
                       noItemsFoundBuilder: (context) => const SizedBox(
                         height: 50,
                         child: Center(
@@ -106,7 +106,6 @@ class SelectCustomer extends StatelessWidget {
                         controller.customerController1.value.text =
                             address.name;
                         controller.customerController2.value.text = address.id;
-                       
                       },
                     )),
               ],
