@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:winemonger/features/order/create_order/create_order_list.dart';
+import 'package:winemonger/features/order/create_order/create_order_section.dart';
 import 'package:winemonger/utils/theme/theme_constants.dart';
-import '../../drawer/drawer_section.dart';
+
 import '../../widgets/appbar.dart';
 import '../../widgets/bottom_app_bar.dart';
 import '../../widgets/floating_action_button.dart';
@@ -16,9 +16,7 @@ class CreateOrderScreen extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Create a new order',
       ),
-      drawer: DrawerSectionScreen(),
-      //body: CreateOrderList(),
-      body: SizedBox(),
+      body: const CreateOrderSection(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FloatingActionButtonSection(),
       bottomNavigationBar: const BottomAppBarSection(),

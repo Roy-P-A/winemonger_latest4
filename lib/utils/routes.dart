@@ -17,9 +17,7 @@ List<GetPage> routes() => [
       GetPage(
           name: "/",
           page: () => const SplashScreen(),
-          //transition: Transition.cupertino
-          
-          
+          transition: Transition.fadeIn
           ),
       GetPage(
           name: "/dashboard",
