@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/la.dart';
-import 'package:iconify_flutter/icons/ic.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:winemonger/features/order/order_controller.dart';
@@ -61,7 +58,7 @@ class OrderList extends StatelessWidget {
           .format(DateTime.parse(_controller.bulklist.value[i].orderDt!)));
     }
     var distinctIds = ids.toSet().toList();
-    print(distinctIds);
+    //print(distinctIds);
     return SizedBox(
       child: Column(
         children: [

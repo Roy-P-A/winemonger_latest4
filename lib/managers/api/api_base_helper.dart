@@ -55,12 +55,12 @@ class ApiBaseHelper {
       Map<String, String>? headers}) async {
     dynamic responseJson;
     try {
-      print(jsonEncode(body));
+      //print(jsonEncode(body));
       debugPrint(jsonEncode(params));
       var url = Uri.http(_baseUrl, endpoint, params);
       var response = await client.post(url,
           headers: headers ?? _headers, body: jsonEncode(body));
-      print(response.toString());
+      //print(response.toString());
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

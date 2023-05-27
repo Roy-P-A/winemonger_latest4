@@ -17,10 +17,10 @@ class OrderDetailScreen extends StatelessWidget {
           title: 'Order Info',
         ),
         drawer: DrawerSectionScreen(),
-        //body: OrderDetail(),
-        body: const SizedBox(),
+        body: OrderDetail(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: const FloatingActionButtonSection(),
         bottomNavigationBar: const BottomAppBarSection());
   }
 }
+

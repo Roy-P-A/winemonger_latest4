@@ -25,7 +25,7 @@ class OrdersController extends GetxController with SnackbarMixin {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        print("ravi");
+        //print("ravi");
         if (isLoadingFirst.value || isLoadingSecond.value) {
         } else {
           fetchItemsSecond();
@@ -46,7 +46,7 @@ class OrdersController extends GetxController with SnackbarMixin {
       );
       orderModelEntity.value =
           await ApiRepository.to.fetchOrders(request: request);
-      print("heeep${orderModelEntity.value.toJson()}");
+      //print("heeep${orderModelEntity.value.toJson()}");
       await Future.delayed(const Duration(seconds: 1));
 
       for (int k = 0; k < orderModelEntity.value.data.length; k++) {
@@ -77,7 +77,7 @@ class OrdersController extends GetxController with SnackbarMixin {
       );
       orderModelEntity.value =
           await ApiRepository.to.fetchOrders(request: request);
-      print("heeep${orderModelEntity.value.toJson()}");
+      //print("heeep${orderModelEntity.value.toJson()}");
       await Future.delayed(const Duration(seconds: 1));
 
       //bulklist.value.addAll(orderModelEntity.value);
@@ -113,7 +113,7 @@ class OrdersController extends GetxController with SnackbarMixin {
 
   Future<void> sendSearchitem() async {
     isSearchItemBlank.value = false;
-    print(searchController.value.text);
+    //print(searchController.value.text);
     if (searchController.value.text != "") {
       bulklist.value.clear();
       await orderSearchlistApi();
