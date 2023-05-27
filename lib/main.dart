@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:winemonger/repository/repository.dart';
 import 'controllers/app_controller.dart';
 import 'managers/hive/hive.dart';
 import 'utils/routes.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
 }
 
 void initialize() {
+  Get.put<ApiRepository>(ApiRepositoryImpl(), permanent: true);
   Get.put(HiveHelper(), permanent: true);
   Get.put(AppController(), permanent: true);
   Get.put(ThemeController(), permanent: true);

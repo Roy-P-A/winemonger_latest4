@@ -1,136 +1,153 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 import 'package:winemonger/mixins/snackbar_mixin.dart';
-// import 'package:winemonger/models/dto/api_dtos/orders/order_screen/order_screen.dart';
-// import 'package:winemonger/models/ordermodel/order_model.dart';
-// import 'package:winemonger/repository/repository.dart';
+import 'package:winemonger/models/dto/api_dtos/orders/order_screen/order_screen.dart';
+import 'package:winemonger/models/ordermodel/order_model.dart';
+import 'package:winemonger/repository/repository.dart';
 
 class OrdersController extends GetxController with SnackbarMixin {
-  // http.Client client = RetryClient(http.Client());
+  http.Client client = RetryClient(http.Client());
+  var orderModelEntity = OrderModel(data: List<Data>.empty(growable: true)).obs;
+  final bulklist = Rx<List<Data>>([]);
+  final isLoadingFirst = false.obs;
+  final isLoadingSecond = false.obs;
+  final isSearchItemBlank = false.obs;
+  bool hasMorePages = true;
+  int page = 2;
+  final ScrollController scrollController = ScrollController();
+  Rx<TextEditingController> searchController = TextEditingController().obs;
 
-  // var orderModelEntity = OrderModel(data: List<Data>.empty(growable: true)).obs;
+  void scrollControllerSection() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        print("ravi");
+        if (isLoadingFirst.value || isLoadingSecond.value) {
+        } else {
+          fetchItemsSecond();
+        }
+      }
+    });
+  }
 
-  // final ScrollController scrollController = ScrollController();
-  // final isInitialized = false.obs;
+  void fetchItemsfirst() async {
+    if (isLoadingFirst.value) return;
+    isLoadingFirst.value = true;
+    var box = await Hive.openBox('myBox');
+    String apikey = box.get('apikey');
+    try {
+      final request = OrderScreenRequest(
+        apikey: apikey,
+        pagenumber: page,
+      );
+      orderModelEntity.value =
+          await ApiRepository.to.fetchOrders(request: request);
+      print("heeep${orderModelEntity.value.toJson()}");
+      await Future.delayed(const Duration(seconds: 1));
 
-  // Rx<TextEditingController> searchController = TextEditingController().obs;
+      for (int k = 0; k < orderModelEntity.value.data.length; k++) {
+        bulklist.value.add(orderModelEntity.value.data[k]);
+      }
 
-  // final bulklist = Rx<List<Data>>([]);
+      print(bulklist);
 
-  // var count = 1.obs;
-  // var count1 = 20.obs;
-  // var count2 = 1.obs;
+      isLoadingFirst.value = false;
+      page++;
+    } catch (e) {
+      showErrorSnackbar(title: "Error", message: e.toString());
+      isLoadingFirst.value = false;
+    }
 
-  // increment() => count++;
-  // // decrement() => count--;
+    update();
+  }
 
-  // @override
-  // void onInit() {
-  //   bulklistApi();
-  //   super.onInit();
-  // }
+  void fetchItemsSecond() async {
+    if (isLoadingSecond.value) return;
+    isLoadingSecond.value = true;
+    var box = await Hive.openBox('myBox');
+    String apikey = box.get('apikey');
+    try {
+      final request = OrderScreenRequest(
+        apikey: apikey,
+        pagenumber: page,
+      );
+      orderModelEntity.value =
+          await ApiRepository.to.fetchOrders(request: request);
+      print("heeep${orderModelEntity.value.toJson()}");
+      await Future.delayed(const Duration(seconds: 1));
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+      //bulklist.value.addAll(orderModelEntity.value);
+      for (int k = 0; k < orderModelEntity.value.data.length; k++) {
+        bulklist.value.add(orderModelEntity.value.data[k]);
+      }
 
-  // @override
-  // void dispose() {
-  //   scrollController.dispose();
-  //   searchController.value.dispose();
-  //   super.dispose();
-  // }
+      print(bulklist);
 
-  // int totalpages() {
-  //   if (orderModelEntity.value.totalNoItems != null) {
-  //     return (int.parse(orderModelEntity.value.totalNoItems!) / 10).toInt();
-  //   }
-  //   return 20;
-  // }
+      isLoadingSecond.value = false;
+      page++;
+    } catch (e) {
+      showErrorSnackbar(title: "Error", message: e.toString());
+      isLoadingSecond.value = false;
+    }
 
-  // Future<void> bulklistApi() async {
-  //   if (count1.value <= totalpages()) {
-  //     for (int j = count2.value; j < count1.value; j++) {
-  //       await orderlistApi(j);
+    update();
+  }
 
-  //       for (int k = 0; k < orderModelEntity.value.data.length; k++) {
-  //         bulklist.value.add(orderModelEntity.value.data[k]);
-  //       }
-  //       increment();
-  //       update();
-  //     }
-  //     count2.value = count1.value;
-  //     isInitialized.value = true;
-  //   }
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    bulklist.value.clear();
+    fetchItemsfirst();
+  }
 
-  // Future<void> orderlistApi(value) async {
-  //   isInitialized.value = false;
-  //   var box = await Hive.openBox('myBox');
-  //   String apikey = box.get('apikey');
+  @override
+  void dispose() {
+    scrollController.dispose();
+    searchController.value.dispose();
+    super.dispose();
+  }
 
-  //   try {
-  //     final request = OrderScreenRequest(
-  //       apikey: apikey,
-  //       pagenumber: value,
-  //     );
+  Future<void> sendSearchitem() async {
+    isSearchItemBlank.value = false;
+    print(searchController.value.text);
+    if (searchController.value.text != "") {
+      bulklist.value.clear();
+      await orderSearchlistApi();
+    } else {
+      bulklist.value.clear();
+      page = 2;
+      fetchItemsfirst();
+    }
+  }
 
-  //     orderModelEntity.value =
-  //         await ApiRepository.to.fetchOrders(request: request);
-  //     print(orderModelEntity.value.toJson());
+  Future<void> orderSearchlistApi() async {
+    var box = await Hive.openBox('myBox');
+    String apikey = box.get('apikey');
+    var _baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'apiV1/orders/search';
+    var headers = {'APIKEY': apikey};
+    var params = {'customer_company': searchController.value.text};
+    var url = Uri.http(_baseUrl, endpoint, params);
 
-  //     isInitialized.value = true;
-  //   } catch (e) {
-  //     showErrorSnackbar(title: "Error", message: e.toString());
-  //   }
-  //   update();
-  // }
+    try {
+      var response = await client.get(url, headers: headers);
 
-  // Future<void> sendSearchitem() async {
-  //   print(searchController.value.text);
-  //   bulklist.value.clear();
-  //   await bulkSearchlistApi();
-  // }
+      if (response.statusCode == 200) {
+        orderModelEntity.value = OrderModel.fromJson(jsonDecode(response.body));
 
-  // Future<void> bulkSearchlistApi() async {
-  //   await orderSearchlistApi();
+        print(orderModelEntity.value.toJson());
 
-  //   for (int k = 0; k < orderModelEntity.value.data.length; k++) {
-  //     bulklist.value.add(orderModelEntity.value.data[k]);
-  //   }
-  //   increment();
-  //   update();
-
-  //   isInitialized.value = true;
-  // }
-
-  // Future<void> orderSearchlistApi() async {
-  //   isInitialized.value = false;
-  //   var box = await Hive.openBox('myBox');
-  //   String apikey = box.get('apikey');
-
-  //   var _baseUrl = 'winemonger.nintriva.com';
-  //   var endpoint = 'apiV1/orders/search';
-  //   var headers = {'APIKEY': apikey};
-  //   var params = {'customer_company': searchController.value.text};
-  //   var url = Uri.http(_baseUrl, endpoint, params);
-
-  //   try {
-  //     var response = await client.get(url, headers: headers);
-
-  //     if (response.statusCode == 200) {
-  //       orderModelEntity.value = OrderModel.fromJson(jsonDecode(response.body));
-  //       isInitialized.value = true;
-
-  //       print(orderModelEntity.value.toJson());
-
-  //       isInitialized.value = true;
-  //     }
-  //   } catch (e) {}
-  // }
+        for (int k = 0; k < orderModelEntity.value.data.length; k++) {
+          bulklist.value.add(orderModelEntity.value.data[k]);
+        }
+      }
+    } catch (e) {
+      isSearchItemBlank.value = true;
+    }
+    update();
+  }
 }

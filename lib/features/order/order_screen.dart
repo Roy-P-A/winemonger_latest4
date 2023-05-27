@@ -22,23 +22,17 @@ class OrdersScreen extends StatelessWidget {
               title: 'View Orders',
             ),
             drawer: DrawerSectionScreen(),
-            body: Obx(
-              () => Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(
-                        left: 45, right: 45, top: 30, bottom: 0),
-                    child: _searchbar(context),
-                  ),
-                  //controller.count.value == 1 ? Container() : Container(),
-                  // const Expanded(
-                  //   child: OrderList(),
-                  // ),
-                   const Expanded(
-                    child: SizedBox(),
-                  ),
-                ],
-              ),
+            body: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(
+                      left: 45, right: 45, top: 30, bottom: 0),
+                  child: _searchbar(context),
+                ),
+                Expanded(
+                  child: OrderList(),
+                ),
+              ],
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
@@ -60,36 +54,36 @@ class OrdersScreen extends StatelessWidget {
                   .viewOrdersearchBackgroundColor)),
       child: Row(
         children: [
-          // Expanded(
-          //   flex: 4,
-          //   child: Container(
-          //     padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-          //     child: Form(
-          //       child: TextFormField(
-          //         controller: _controller.searchController.value,
-          //         decoration: const InputDecoration(
-          //           hintText: 'Search Order',
-          //           border: InputBorder.none,
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // Expanded(
-          //   flex: 1,
-          //   child: Align(
-          //     alignment: Alignment.centerRight,
-          //     child: IconButton(
-          //       icon: const Icon(
-          //         Icons.search,
-          //         color: Color(0xffd0d0d0),
-          //       ),
-          //       onPressed: () {
-          //         _controller.sendSearchitem();
-          //       },
-          //     ),
-          //   ),
-          // )
+          Expanded(
+            flex: 4,
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Form(
+                child: TextFormField(
+                  controller: _controller.searchController.value,
+                  decoration: const InputDecoration(
+                    hintText: 'Search Order',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  color: Color(0xffd0d0d0),
+                ),
+                onPressed: () {
+                  _controller.sendSearchitem();
+                },
+              ),
+            ),
+          )
         ],
       ),
     );
