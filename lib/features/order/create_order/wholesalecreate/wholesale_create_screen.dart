@@ -1,84 +1,70 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_typeahead/flutter_typeahead.dart';
-// import 'package:dropdown_button2/dropdown_button2.dart';
+
 import 'package:get/get.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale_create_controller.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/adjustmentwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/confirmingproductwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/customertextfieldwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/manufacturertextfieldwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/orderedproductwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/orderedwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/producttextfieldwidget.dart';
-import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/warehousetextdfieldwidget.dart';
-// import 'package:winemonger/models/ordermodel/order_detail_model.dart';
+
+import 'widgets/select_customer/select_customer_text_field.dart';
+import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateOrderList extends StatelessWidget {
-   WholeSaleCreateOrderList({Key? key}) : super(key: key);
+  WholeSaleCreateOrderList({Key? key}) : super(key: key);
 
-  final WholesaleCreateController _controller =
-      Get.put(WholesaleCreateController());
-  String? selectedValue;
-  dynamic userSelected;
+  final WholeSaleCreateController _controller =
+      Get.put(WholeSaleCreateController());
 
-  final TextEditingController typeAheadController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return 
-      SingleChildScrollView(
-        child: Center(
-          child: Container(
-            margin:
-                const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                // CustomerFieldTextWidget(),
-                const SizedBox(
-                  height: 20,
-                ),
-                // WarehouseTextField(),
-                const SizedBox(
-                  height: 20,
-                ),
-                // ManufacturerTextField(),
-                const SizedBox(
-                  height: 20,
-                ),
-                // ProductTextFieldtWidget(),
-                const SizedBox(
-                  height: 30,
-                ),
-                _selectProductButton(context),
-                const SizedBox(
-                  height: 10,
-                ),
-                // _controller.selectButtonToAddToOrders.value == true
-                //     ? ConfirmingProductWidget()
-                //     : Container(),
-                // _controller.addToOrders.value == true
-                //     ? OrderedProductWidget()
-                //     : Container(),
+    return  SingleChildScrollView(
+      child: Center(
+        child: Container(
+          margin: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+               const SelectCustomer(),
+              const SizedBox(
+                height: 20,
+              ),
+             const   WareHouseField (),
+              const SizedBox(
+                height: 20,
+              ),
+              // ManufacturerTextField(),
+              const SizedBox(
+                height: 20,
+              ),
+              // ProductTextFieldtWidget(),
+              const SizedBox(
+                height: 30,
+              ),
+              _selectProductButton(context),
+              const SizedBox(
+                height: 10,
+              ),
+              // _controller.selectButtonToAddToOrders.value == true
+              //     ? ConfirmingProductWidget()
+              //     : Container(),
+              // _controller.addToOrders.value == true
+              //     ? OrderedProductWidget()
+              //     : Container(),
 
-                // AdjustmentWidget(),
-                const SizedBox(
-                  height: 10,
-                ),
-                // _totalAndConfirm(context),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
+              // AdjustmentWidget(),
+              const SizedBox(
+                height: 10,
+              ),
+              // _totalAndConfirm(context),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
           ),
         ),
-      );
-    
+      ),
+    );
   }
 
   //
@@ -122,7 +108,7 @@ class WholeSaleCreateOrderList extends StatelessWidget {
   }
 
   Widget _totalAndConfirm(BuildContext context) {
-    final WholesaleCreateController _controller = Get.find();
+    final WholeSaleCreateController _controller = Get.find();
     return Obx(
       () => Column(
         children: [
