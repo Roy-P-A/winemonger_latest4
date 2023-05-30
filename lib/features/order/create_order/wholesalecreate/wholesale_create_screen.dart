@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale_create_controller.dart';
+import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/product/product_field_widget.dart';
 
+import 'widgets/manufacture/manufacture_widgets.dart';
 import 'widgets/select_customer/select_customer_text_field.dart';
 import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateOrderList extends StatelessWidget {
   WholeSaleCreateOrderList({Key? key}) : super(key: key);
 
-  final WholeSaleCreateController _controller =
-      Get.put(WholeSaleCreateController());
+
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
+    return GetBuilder<WholeSaleCreateController>(
+        init: WholeSaleCreateController(),
+        builder: (controller) {
+          return
+    
+     SingleChildScrollView(
       child: Center(
         child: Container(
           margin: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 32),
@@ -33,15 +39,15 @@ class WholeSaleCreateOrderList extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              // ManufacturerTextField(),
+             const   ManuFactureField(),
               const SizedBox(
                 height: 20,
               ),
-              // ProductTextFieldtWidget(),
+              const ProductField(),
               const SizedBox(
                 height: 30,
               ),
-              _selectProductButton(context),
+              _selectProductButton(context,controller),
               const SizedBox(
                 height: 10,
               ),
@@ -64,11 +70,11 @@ class WholeSaleCreateOrderList extends StatelessWidget {
           ),
         ),
       ),
-    );
+    );});
   }
 
   //
-  Widget _selectProductButton(BuildContext context) {
+  Widget _selectProductButton(BuildContext context , WholeSaleCreateController controller ) {
     return Column(
       children: [
         InkWell(
@@ -94,13 +100,17 @@ class WholeSaleCreateOrderList extends StatelessWidget {
                     fontWeight: FontWeight.w600, color: Colors.black)),
           ),
           onTap: () async {
+controller.checkProductButton();
+await controller.productButtonApi();
+
+            
             // _controller.selectProductButton();
             // await _controller.selectProductApi();
-            // if (_controller
-            //         .orderWholesaleSelectProductbuttomModelEntity.value.id !=
-            //     null) {
-            //   _controller.selectButtonToAddToOrders.value = true;
-            // }
+            if (controller
+                    .productButtonModelEntity.value.id !=
+                null) {
+              controller.selectButtonToAddToOrders.value = true;
+            }
           },
         ),
       ],

@@ -66,14 +66,14 @@ class SelectCustomer extends StatelessWidget {
                         for (int i = 0;
                             i <
                                 controller
-                                    .CustomerModelEntity.value.data1!.length;
+                                    .customerModelEntity.value.data1!.length;
                             i++) {
                           addresses.add(
                             User(
-                                controller.CustomerModelEntity.value.data1![i]
+                                controller.customerModelEntity.value.data1![i]
                                         .customerId ??
                                     " ",
-                                controller.CustomerModelEntity.value.data1![i]
+                                controller.customerModelEntity.value.data1![i]
                                         .companyName ??
                                     " "),
                           );

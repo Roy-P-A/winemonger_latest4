@@ -1,24 +1,20 @@
-
-
-
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import '../../../../applogin/app_string.dart';
 import '../../../../mixins/snackbar_mixin.dart';
-
 
 import 'package:http/http.dart' as http;
 
 import '../../../../models/customer_model.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesalefilterproductmodel.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesalemanufacturermodel.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectproductbuttonmodel.dart';
 import '../../../../models/warehouse_model.dart';
+import 'widgets/manufacture/manufacture_widgets.dart';
 import 'widgets/warehouse/warehouse_widget.dart';
-
 
 class WholeSaleCreateController extends GetxController with SnackbarMixin {
   var customerController1 = TextEditingController().obs;
@@ -30,24 +26,24 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   var operatorController = TextEditingController().obs;
 
 //---model entity--------------------//
-  var CustomerModelEntity =
+  var customerModelEntity =
       CustomerModel(data1: List<Data1>.empty(growable: true)).obs;
 
-  var WarehouseModelEntity =
+  var warehouseModelEntity =
       WarehouseModel(data: List<Datum>.empty(growable: true)).obs;
 //   var WarehouseModelEntity2 =
 //       WareHouseModelnew(data: List<Datu>.empty(growable: true)).obs;
 
-//   var manufactureModelEntity =
-//       ManuFactureModel(dataone: List<DatumOne>.empty(growable: true)).obs;
+  var manufactureModelEntity =
+      OrderWholesaleManufacturerModel(data3: List<Data3>.empty(growable: true), ).obs;
 
-//   var FilterProductModelEntity = FilterProductModel(
-//       data2: NewData(
-//     data3: List<Datumproduct>.empty(growable: true),
-//   )).obs;
+  var filterProductModelEntity = OrderWholesaleFilterProductModel(
+      data4: Data4(
+    data5: List<Data5>.empty(growable: true),
+  )).obs;
 
-//   var productButtonModelEntity =
-//       SelectButtonModel(productSpecs: ProductSpecs()).obs;
+  var productButtonModelEntity =
+      OrderWholesaleSelectProductbuttomModel(productSpecs: ProductSpecs()).obs;
 
 //   var AddToOrderButtonModelEntity = AddToOrderButtonModel(data7: Data7()).obs;
 
@@ -65,36 +61,36 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //   var BulklistModelEntity =
 //       BulklistModel(dataOr2: DataOr2(), dataOr1: DataOr1());
 
-//   final selectButtonToAddToOrders = false.obs;
+  final selectButtonToAddToOrders = false.obs;
 //   final addToOrders = false.obs;
 //   final addToOrders1 = false.obs;
 //   final addadjustments = true.obs;
 
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
-//   final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
-//   final GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
 //   final GlobalKey<FormState> formKey5 = GlobalKey<FormState>();
 //   final GlobalKey<FormState> formKey6 = GlobalKey<FormState>();
 
-//   void checkProductButton() {
-//     // customerNameValidator("a");
-//     // warehouseNamevalidator("b");
-//     // manufacturerNameValidator("c");
-//     // productNameValidator("d");
-//     final isValid1 = formKey1.currentState!.validate();
-//     final isValid2 = formKey2.currentState!.validate();
-//     final isValid3 = formKey3.currentState!.validate();
-//     final isValid4 = formKey4.currentState!.validate();
-//     Get.focusScope!.unfocus();
+  void checkProductButton() {
+    // customerNameValidator("a");
+    // warehouseNamevalidator("b");
+    // manufacturerNameValidator("c");
+    // productNameValidator("d");
+    final isValid1 = formKey1.currentState!.validate();
+    final isValid2 = formKey2.currentState!.validate();
+    final isValid3 = formKey3.currentState!.validate();
+    final isValid4 = formKey4.currentState!.validate();
+    Get.focusScope!.unfocus();
 
-//     if (isValid1 && isValid2 && isValid3 && isValid4) {
-//       formKey1.currentState!.save();
-//       formKey2.currentState!.save();
-//       formKey3.currentState!.save();
-//       formKey4.currentState!.save();
-//     }
-//   }
+    if (isValid1 && isValid2 && isValid3 && isValid4) {
+      formKey1.currentState!.save();
+      formKey2.currentState!.save();
+      formKey3.currentState!.save();
+      formKey4.currentState!.save();
+    }
+  }
 
 //   // fieldRefresh() {
 //   //   // customerController1.value.clear();
@@ -111,26 +107,24 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //         ManuFactureModel(dataone: List<DatumOne>.empty(growable: true));
 //   }
 
-  var users = <HouseUser>[HouseUser("0", "select warehouse")].obs;
+  var users = <HouseUser>[const HouseUser("0", "select warehouse")].obs;
   var warehouseselected = "0".obs;
   void setSelected(String value) {
     warehouseselected.value = value;
   }
 
 //   var totalValue = (0).obs;
-
-//   var manufactureselected = '0'.obs;
-//   void setSelected2(String value) {
-//     manufactureselected.value = value;
-//   }
+  var users2 = <User2>[User2("0", "select manufacture")].obs;
+  var manufactureselected = '0'.obs;
+  void setSelected2(String value) {
+    manufactureselected.value = value;
+  }
 
 //   var adjustmentselected = "0".obs;
 
 //   void setSelected3(String value) {
 //     adjustmentselected.value = value;
 //   }
-
-//   var users2 = <User2>[User2("0", "select manufacture")].obs;
 
   String? customerNameValidator(String value) {
     if (customerController1.value.text.isEmpty ||
@@ -148,20 +142,20 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     return null;
   }
 
-//   String? manufacturerNameValidator(String value) {
-//     if (value == null || manufactureselected.value == '0') {
-//       return 'Select Manufacturer';
-//     }
-//     return null;
-//   }
+  String? manufacturerNameValidator(String value) {
+    if (value == null || manufactureselected.value == '0') {
+      return 'Select Manufacturer';
+    }
+    return null;
+  }
 
-//   String? productNameValidator(String value) {
-//     if (productController1.value.text.isEmpty ||
-//         productController1.value.text.length < 1) {
-//       return 'select product';
-//     }
-//     return null;
-//   }
+  String? productNameValidator(String value) {
+    if (productController1.value.text.isEmpty ||
+        productController1.value.text.length < 1) {
+      return 'select product';
+    }
+    return null;
+  }
 
 //   // final bulkAddAdjustmentslist = Rx<List<Data10> >
 
@@ -199,7 +193,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   void onClose() {
     customerController1.value.dispose();
     customerController2.value.dispose();
-  warehouseselected.value = '0';
+    warehouseselected.value = '0';
     // manufactureselected.value = '0';
     // productController.value.dispose();
     // productController1.value.dispose();
@@ -207,10 +201,10 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     update();
   }
 
-//   @override
-//   void dispose() {
-//     super.dispose();
-//   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
 //   filediterator() {
 //     //var temp = users.value.first;
@@ -225,7 +219,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     var baseUrl = 'winemonger.nintriva.com';
     var endpoint = 'api/list/warehouses';
     var headers = {
-      'APIKEY': apiKey ,
+      'APIKEY': apiKey,
       'Cookie': cooKie,
     };
     var url = Uri.http(baseUrl, endpoint);
@@ -236,32 +230,22 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
         url,
         headers: headers,
       );
-      print(response);
+      
+      
+      (response);
       if (response.statusCode == 200) {
-        WarehouseModelEntity.value =
+        warehouseModelEntity.value =
             WarehouseModel.fromJson(jsonDecode(response.body));
-        for (int i = 0; i < WarehouseModelEntity.value.data.length; i++) {
+        for (int i = 0; i < warehouseModelEntity.value.data.length; i++) {
           users.add(HouseUser(
-              WarehouseModelEntity.value.data[i].warehouseId ?? "",
-              WarehouseModelEntity.value.data[i].warehouseName ?? ""));
-          //   }
-          // if (response.statusCode == 200) {
-          //   WarehouseModelEntity2.value =
-          //       WareHouseModelnew.fromJson(jsonDecode(response.body));
-          //   for (int i = 0; i < WarehouseModelEntity2.value.data.length; i++) {
-          //     users.add(HouseUser(
-          //         WarehouseModelEntity2.value.data[i].warehouseId ?? "",
-          //         WarehouseModelEntity2.value.data[i].warehouseSku ?? ""));
+              warehouseModelEntity.value.data[i].warehouseId ?? "",
+              warehouseModelEntity.value.data[i].warehouseName ?? ""));
         }
-
-        // print('success');
       } else {
-        // print('failed');
         throw Exception('failed to load');
       }
-      // print(WarehouseModelEntity.value.toJson());
     } catch (e) {
-      //print(() => e.toString());
+      print(e.toString());
     }
     update();
   }
@@ -295,108 +279,108 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //     update();
 //   }
 
-//   Future<void> manuFactureApi() async {
-//     var _baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/search/manufacturers';
-//     var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
-//     var url = Uri.http(
-//       _baseUrl,
-//       endpoint,
-//     );
-//     try {
-//       var response = await http.post(url,
-//           headers: headers,
-//           body: jsonEncode({'warehouse_id': '${warehouseselected.value}'}));
-//       print("resp:$response");
-//       if (response.statusCode == 200) {
-//         users2.clear();
-//         users2.value = <User2>[User2("0", "select manufacture")];
-//         manufactureModelEntity.value =
-//             ManuFactureModel.fromJson(jsonDecode(response.body));
-//         for (int i = 0; i < manufactureModelEntity.value.dataone!.length; i++) {
-//           users2.add(User2(
-//             manufactureModelEntity.value.dataone![i].manId,
-//             manufactureModelEntity.value.dataone![i].manName,
-//           ));
-//         }
+  Future<void> manuFactureApi() async {
+    var _baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/search/manufacturers';
+    var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
+    var url = Uri.http(
+      _baseUrl,
+      endpoint,
+    );
+    try {
+      var response = await http.post(url,
+          headers: headers,
+          body: jsonEncode({'warehouse_id': warehouseselected.value}));
+      print("resp:$response");
+      if (response.statusCode == 200) {
+        users2.clear();
+        users2.value = <User2>[User2("0", "select manufacture")];
+        manufactureModelEntity.value =
+            OrderWholesaleManufacturerModel.fromJson(jsonDecode(response.body));
+        for (int i = 0; i < manufactureModelEntity.value.data3.length; i++) {
+          users2.add(User2(
+            manufactureModelEntity.value.data3[i].manId!,
+            manufactureModelEntity.value.data3[i].manName!,
+          ));
+        }
 
-//         // print("active");
-//         // print(manufactureModelEntity.value.toJson());
-//       } else {
-//         print(" not active");
-//         throw Exception('failed to load');
-//       }
-//     } catch (e) {
-//       print(() => e.toString());
-//     }
-//     update();
-//   }
+        // print("active");
+        // print(manufactureModelEntity.value.toJson());
+      } else {
+        print(" not active");
+        throw Exception('failed to load');
+      }
+    } catch (e) {
+      print(() => e.toString());
+    }
+    update();
+  }
 
-//   Future<void> filterProductApi() async {
-//     var _baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'apiV1/orders/filterProduct';
-//     var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
-//     var url = Uri.http(
-//       _baseUrl,
-//       endpoint,
-//     );
-//     try {
-//       var response = await http.post(url,
-//           headers: headers,
-//           body: jsonEncode({
-//             'filters': {
-//               'wholesale': 1,
-//               'warehouse_id': '${warehouseselected.value}',
-//               'manufacturer': '${manufactureselected.value}'
-//             }
-//           }));
+  Future<void> filterProductApi() async {
+    var _baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'apiV1/orders/filterProduct';
+    var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
+    var url = Uri.http(
+      _baseUrl,
+      endpoint,
+    );
+    try {
+      var response = await http.post(url,
+          headers: headers,
+          body: jsonEncode({
+            'filters': {
+              'wholesale': 1,
+              'warehouse_id': warehouseselected.value,
+              'manufacturer': manufactureselected.value
+            }
+          }));
 
-//       if (response.statusCode == 200) {
-//         FilterProductModelEntity.value =
-//             FilterProductModel.fromJson(jsonDecode(response.body));
-//         print("data found");
-//         print(response.toString());
-//         print(FilterProductModelEntity.value.toJson());
-//       } else {
-//         print(" no data found");
-//         throw Exception('failed to load');
-//       }
-//     } catch (e) {
-//       print(() => e.toString());
-//     }
-//     update();
-//   }
+      if (response.statusCode == 200) {
+        filterProductModelEntity.value =
+            OrderWholesaleFilterProductModel.fromJson(jsonDecode(response.body));
+        print("data found");
+        print(response.toString());
+        print(filterProductModelEntity.value.toJson());
+      } else {
+        print(" no data found");
+        throw Exception('failed to load');
+      }
+    } catch (e) {
+      print(() => e.toString());
+    }
+    update();
+  }
 
-//   Future<void> productButtonApi() async {
-//     var baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/view/products';
-//     var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
+  Future<void> productButtonApi() async {
+    var baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/view/products';
+    var headers = {'APIKEY': apiKey, 'Cookie': cooKie};
 
-//     var url = Uri.http(
-//       baseUrl,
-//       endpoint,
-//     );
-//     try {
-//       var response = await http.post(
-//         url,
-//         headers: headers,
-//         body: jsonEncode({"id": '${productController1.value.text}'}),
-//       );
-//       print(response);
-//       if (response.statusCode == 200) {
-//         productButtonModelEntity.value =
-//             SelectButtonModel.fromJson(jsonDecode(response.body));
-//         print("button active");
-//         print(productButtonModelEntity.value.toJson());
-//       } else {
-//         print("button inactive");
-//         throw Exception("failed to select button");
-//       }
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//     update();
-//   }
+    var url = Uri.http(
+      baseUrl,
+      endpoint,
+    );
+    try {
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode({"id": productController1.value.text}),
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        productButtonModelEntity.value =
+            OrderWholesaleSelectProductbuttomModel.fromJson(jsonDecode(response.body));
+        print("button active");
+        print(productButtonModelEntity.value.toJson());
+      } else {
+        print("button inactive");
+        throw Exception("failed to select button");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    update();
+  }
 
 //   Future<void> addToOrdersValidations() async {
 //     final isValid5 = formKey5.currentState!.validate();

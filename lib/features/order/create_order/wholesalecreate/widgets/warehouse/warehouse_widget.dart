@@ -14,7 +14,7 @@ class WareHouseField extends StatelessWidget {
         init: WholeSaleCreateController(),
         builder: (controller) {
           return Form(
-            // key: controller.formKey2,
+             key: controller.formKey2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -81,7 +81,7 @@ class WareHouseField extends StatelessWidget {
                           controller.setSelected(value as String);
                           //controller.listRefresh();
 
-                          // await controller.manuFactureApi();
+                           await controller.manuFactureApi();
                           print(controller.warehouseselected.value);
                         },
                         value:

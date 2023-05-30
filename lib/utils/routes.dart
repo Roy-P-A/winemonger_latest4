@@ -16,7 +16,9 @@ import '../features/tastings/tastings.dart';
 List<GetPage> routes() => [
       GetPage(
           name: "/",
-          page: () => const SplashScreen(),
+          page: () => 
+          // const CreateOrderScreen(),
+           const SplashScreen(),
           transition: Transition.fadeIn
           ),
       GetPage(

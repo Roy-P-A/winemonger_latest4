@@ -1,14 +1,14 @@
-class OrderWholesaleFilterManufacturerModel {
+class OrderWholesaleManufacturerModel {
   int? code;
   String? totalItem;
   List<Data3> data3;
 
-  OrderWholesaleFilterManufacturerModel(
+  OrderWholesaleManufacturerModel(
       {this.code, this.totalItem, required this.data3});
 
-  factory OrderWholesaleFilterManufacturerModel.fromJson(
+  factory OrderWholesaleManufacturerModel.fromJson(
           Map<String, dynamic> json) =>
-      OrderWholesaleFilterManufacturerModel(
+      OrderWholesaleManufacturerModel(
         code: json['code'],
         totalItem: json['total_item'],
         data3: List<Data3>.from(json['data'].map((x) => Data3.fromJson(x))),
