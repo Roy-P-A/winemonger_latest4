@@ -9,8 +9,10 @@ import '../../../../mixins/snackbar_mixin.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../models/customer_model.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleadjustmentlistmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalefilterproductmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalemanufacturermodel.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectaddtoordersmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectproductbuttonmodel.dart';
 import '../../../../models/warehouse_model.dart';
 import 'widgets/manufacture/manufacture_widgets.dart';
@@ -34,8 +36,9 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //   var WarehouseModelEntity2 =
 //       WareHouseModelnew(data: List<Datu>.empty(growable: true)).obs;
 
-  var manufactureModelEntity =
-      OrderWholesaleManufacturerModel(data3: List<Data3>.empty(growable: true), ).obs;
+  var manufactureModelEntity = OrderWholesaleManufacturerModel(
+    data3: List<Data3>.empty(growable: true),
+  ).obs;
 
   var filterProductModelEntity = OrderWholesaleFilterProductModel(
       data4: Data4(
@@ -45,10 +48,11 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   var productButtonModelEntity =
       OrderWholesaleSelectProductbuttomModel(productSpecs: ProductSpecs()).obs;
 
-//   var AddToOrderButtonModelEntity = AddToOrderButtonModel(data7: Data7()).obs;
+  var addToOrderButtonModelEntity =
+      OrderWholesaleSelectAddToOrdersModel(data7: Data7()).obs;
 
-//   var AdjustmentListModelEntity =
-//       AdjustmentListModel(data9: List<Data9>.empty(growable: true)).obs;
+  var adjustmentListModelEntity =
+      OrderWholesaleAdjustmentListModel (data9: List<Data9>.empty(growable: true)).obs;
 
 //   var AddAdjustmentsToOrdersModelEntity =
 //       AddAdjustmentToOrderModel(data10: Data10()).obs;
@@ -62,35 +66,52 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //       BulklistModel(dataOr2: DataOr2(), dataOr1: DataOr1());
 
   final selectButtonToAddToOrders = false.obs;
-//   final addToOrders = false.obs;
-//   final addToOrders1 = false.obs;
-//   final addadjustments = true.obs;
+  final addToOrders = false.obs;
+  final addToOrders1 = false.obs;
+  final addadjustments = true.obs;
 
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey3 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
-//   final GlobalKey<FormState> formKey5 = GlobalKey<FormState>();
-//   final GlobalKey<FormState> formKey6 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey5 = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey6 = GlobalKey<FormState>();
 
   void checkProductButton() {
-    // customerNameValidator("a");
-    // warehouseNamevalidator("b");
-    // manufacturerNameValidator("c");
-    // productNameValidator("d");
-    final isValid1 = formKey1.currentState!.validate();
-    final isValid2 = formKey2.currentState!.validate();
-    final isValid3 = formKey3.currentState!.validate();
-    final isValid4 = formKey4.currentState!.validate();
+    final formKey1State = formKey1.currentState;
+    final formKey2State = formKey2.currentState;
+    final formKey3State = formKey3.currentState;
+    final formKey4State = formKey4.currentState;
+    final isValid1 = formKey1State!.validate();
+    final isValid2 = formKey2State!.validate();
+    final isValid3 = formKey3State!.validate();
+    final isValid4 = formKey4State!.validate();
+
     Get.focusScope!.unfocus();
 
     if (isValid1 && isValid2 && isValid3 && isValid4) {
-      formKey1.currentState!.save();
-      formKey2.currentState!.save();
-      formKey3.currentState!.save();
-      formKey4.currentState!.save();
+      formKey1State.save();
+      formKey2State.save();
+      formKey3State.save();
+      formKey4State.save();
     }
   }
+
+  // void checkProductButton(){
+
+  // final isValid1 =  formKey1.currentState!.validate();
+  //   final isValid2 = formKey2.currentState!.validate();
+  //   final isValid3 = formKey3.currentState!.validate();
+  //   final isValid4 = formKey4.currentState!.validate();
+  //   Get.focusScope!.unfocus();
+
+  //   if (isValid1 && isValid2 && isValid3 && isValid4) {
+  //      formKey1.currentState!.save();
+  //     formKey2.currentState!.save();
+  //     formKey3.currentState!.save();
+  //     formKey4.currentState!.save();
+  //   }
+  // }
 
 //   // fieldRefresh() {
 //   //   // customerController1.value.clear();
@@ -119,12 +140,6 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   void setSelected2(String value) {
     manufactureselected.value = value;
   }
-
-//   var adjustmentselected = "0".obs;
-
-//   void setSelected3(String value) {
-//     adjustmentselected.value = value;
-//   }
 
   String? customerNameValidator(String value) {
     if (customerController1.value.text.isEmpty ||
@@ -157,18 +172,24 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     return null;
   }
 
+  var adjustmentselected = "0".obs;
+
+  void setSelected3(String value) {
+    adjustmentselected.value = value;
+  }
+
 //   // final bulkAddAdjustmentslist = Rx<List<Data10> >
 
 //   //=============================================>Warehouse variables
 
-//   final bulkAddAdjustmentslist = Rx<List<dynamic>>([]).obs;
+  final bulkAddAdjustmentslist = Rx<List<dynamic>>([]).obs;
 //   final orderBulklist = Rx<List<dynamic>>([]).obs;
 //   // final fulltotal = (0.0).obs;
 //   //String totalAmount = '0';
-//   RxDouble total1 = (0.0).obs;
-//   var total2 = 0.0;
-//   RxDouble grandTotal = (0.0).obs;
-//   var adjustment = 0.0;
+  RxDouble total1 = (0.0).obs;
+  var total2 = 0.0;
+  RxDouble grandTotal = (0.0).obs;
+  var adjustment = 0.0;
 
 //   final indexf = "".obs;
 
@@ -206,6 +227,15 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     super.dispose();
   }
 
+  fieldClear() {
+    customerController1.value.clear();
+    customerController2.value.clear();
+    warehouseselected.value = '0';
+    manufactureselected.value = '0';
+    productController.value.clear();
+    productController1.value.clear();
+  }
+
 //   filediterator() {
 //     //var temp = users.value.first;
 //     // users2.value.clear(); //for manufactures
@@ -230,8 +260,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
         url,
         headers: headers,
       );
-      
-      
+
       (response);
       if (response.statusCode == 200) {
         warehouseModelEntity.value =
@@ -337,7 +366,8 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
       if (response.statusCode == 200) {
         filterProductModelEntity.value =
-            OrderWholesaleFilterProductModel.fromJson(jsonDecode(response.body));
+            OrderWholesaleFilterProductModel.fromJson(
+                jsonDecode(response.body));
         print("data found");
         print(response.toString());
         print(filterProductModelEntity.value.toJson());
@@ -369,7 +399,8 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(response);
       if (response.statusCode == 200) {
         productButtonModelEntity.value =
-            OrderWholesaleSelectProductbuttomModel.fromJson(jsonDecode(response.body));
+            OrderWholesaleSelectProductbuttomModel.fromJson(
+                jsonDecode(response.body));
         print("button active");
         print(productButtonModelEntity.value.toJson());
       } else {
@@ -382,129 +413,130 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     update();
   }
 
-//   Future<void> addToOrdersValidations() async {
-//     final isValid5 = formKey5.currentState!.validate();
-//     Get.focusScope!.unfocus();
+  Future<void> addToOrdersValidations() async {
+    final isValid5 = formKey5.currentState!.validate();
+    Get.focusScope!.unfocus();
 
-//     if (isValid5) {
-//       formKey5.currentState!.save();
-//       await addToOrdersApi(
-//         product_id: productButtonModelEntity.value.id,
-//         qty: quantityController.value.text,
-//         line_sku: productButtonModelEntity.value.sku,
-//         line_dsc: productButtonModelEntity.value.name,
-//         line_value: productButtonModelEntity.value.wholesalePrice,
-//         // total_pre_orderline_id:
-//         //     AddToOrderButtonModelEntity.value.data7.totalPreOrderlineId,
-//         // total: AddToOrderButtonModelEntity.value.data7.total,
-//         // pre_orderline_id:
-//         //     AddToOrderButtonModelEntity.value.data7.preOrderlineId,
-//         // // discount_total:addToOrders.
-//         // product_ware_house_id:
-//         //     AddToOrderButtonModelEntity.value.data7.productWareHouseId,
-//         // line_number: AddToOrderButtonModelEntity.value.data7.lineNumber
-//       );
+    if (isValid5) {
+      formKey5.currentState!.save();
+      await addToOrdersApi(
+        product_id: productButtonModelEntity.value.id,
+        qty: quantityController.value.text,
+        line_sku: productButtonModelEntity.value.sku,
+        line_dsc: productButtonModelEntity.value.name,
+        line_value: productButtonModelEntity.value.wholesalePrice,
+        // total_pre_orderline_id:
+        //     AddToOrderButtonModelEntity.value.data7.totalPreOrderlineId,
+        // total: AddToOrderButtonModelEntity.value.data7.total,
+        // pre_orderline_id:
+        //     AddToOrderButtonModelEntity.value.data7.preOrderlineId,
+        // // discount_total:addToOrders.
+        // product_ware_house_id:
+        //     AddToOrderButtonModelEntity.value.data7.productWareHouseId,
+        // line_number: AddToOrderButtonModelEntity.value.data7.lineNumber
+      );
 
-//       addToOrders.value = true;
-//       selectButtonToAddToOrders.value = false;
-//       await bulklist1Api();
-//       await totalcalculation();
+      addToOrders.value = true;
+      selectButtonToAddToOrders.value = false;
+      await bulklist1Api();
+      // await totalcalculation();
 
-//       // print(customerController1.value.text);
-//     }
-//   }
+      // print(customerController1.value.text);
+    }
+  }
 
-//   Future<void> bulklist1Api() async {
-//     bulkAddAdjustmentslist.value.value
-//         .add(AddToOrderButtonModelEntity.value.data7);
-//     // Operation();
-//   }
+  Future<void> bulklist1Api() async {
+    bulkAddAdjustmentslist.value.value
+        .add(addToOrderButtonModelEntity.value.data7);
+    // Operation();
+  }
 
-//   Future<void> addToOrdersApi({
-//     product_id,
-//     qty,
-//     line_sku,
-//     line_dsc,
-//     line_value,
-//     // total_pre_orderline_id,
-//     // total,
-//     // pre_orderline_id,
-//     // // discount_total,
-//     // product_ware_house_id,
-//     // line_number
-//   }) async {
-//     var baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/create/preOrderLines';
-//     var headers = {"APIKEY": apiKey, 'Cookie': cooKie};
+  Future<void> addToOrdersApi({
+    product_id,
+    qty,
+    line_sku,
+    line_dsc,
+    line_value,
+    // total_pre_orderline_id,
+    // total,
+    // pre_orderline_id,
+    // // discount_total,
+    // product_ware_house_id,
+    // line_number
+  }) async {
+    var baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/create/preOrderLines';
+    var headers = {"APIKEY": apiKey, 'Cookie': cooKie};
 
-//     print(product_id.runtimeType);
-//     print(qty.runtimeType);
-//     print(line_sku.runtimeType);
-//     // print(linedsc);
-//     print(line_value.runtimeType);
-//     print(customerController2.value.runtimeType);
+    print(product_id.runtimeType);
+    print(qty.runtimeType);
+    print(line_sku.runtimeType);
+    // print(linedsc);
+    print(line_value.runtimeType);
+    print(customerController2.value.runtimeType);
 
-//     // print(
-//     //     "total_pre_orderline_id:${AddToOrderButtonModelEntity.value.data7.totalPreOrderlineId}");
-//     // print(total);
-//     // print(pre_orderline_id);
-//     // print(product_ware_house_id);
-//     // print(line_number);
+    // print(
+    //     "total_pre_orderline_id:${AddToOrderButtonModelEntity.value.data7.totalPreOrderlineId}");
+    // print(total);
+    // print(pre_orderline_id);
+    // print(product_ware_house_id);
+    // print(line_number);
 
-//     var url = Uri.http(baseUrl, endpoint);
-//     try {
-//       var response = await http.post(
-//         url,
-//         headers: headers,
-//         body: jsonEncode(
-//           {
-//             "OrdersLines": {
-//               "product_id":
-//                   // "2852",
-//                   "$product_id",
-//               "qty":
-//                   // "12",
-//                   "${qty}",
-//               "line_sku":
-//                   // "BV026",
-//                   "${line_sku}",
-//               "line_dsc":
-//                   // "Bio Vio Aimone Vermentino 2016",
-//                   "${line_dsc}",
-//               "line_value":
-//                   // "16.5000",
-//                   "${line_value}"
-//             },
-//             "customer_id": "1243",
-//             //"${customerController1.value.text}",
-//             "total_pre_orderline_id": "",
-//             "pre_orderline_id": "",
-//             "total": "",
-//             "discount_total": "",
-//             "product_ware_house_id": "",
-//             // "$product_ware_house_id",
-//             "line_number": ""
-//             //  "$line_number"
-//           },
-//         ),
-//       );
-//       print(response);
-//       if (response.statusCode == 200) {
-//         AddToOrderButtonModelEntity.value =
-//             AddToOrderButtonModel.fromJson(jsonDecode(response.body));
-//         // await totalcalculation();
+    var url = Uri.http(baseUrl, endpoint);
+    try {
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(
+          {
+            "OrdersLines": {
+              "product_id":
+                  // "2852",
+                  "$product_id",
+              "qty":
+                  // "12",
+                  "$qty",
+              "line_sku":
+                  // "BV026",
+                  "$line_sku",
+              "line_dsc":
+                  // "Bio Vio Aimone Vermentino 2016",
+                  "$line_dsc",
+              "line_value":
+                  // "16.5000",
+                  "$line_value"
+            },
+            "customer_id": "1243",
+            //"${customerController1.value.text}",
+            "total_pre_orderline_id": "",
+            "pre_orderline_id": "",
+            "total": "",
+            "discount_total": "",
+            "product_ware_house_id": "",
+            // "$product_ware_house_id",
+            "line_number": ""
+            //  "$line_number"
+          },
+        ),
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        addToOrderButtonModelEntity.value =
+            OrderWholesaleSelectAddToOrdersModel.fromJson(
+                jsonDecode(response.body));
+        // await totalcalculation();
 
-//         print("...addto......");
-//         print(AddToOrderButtonModelEntity.value.toJson());
-//       } else {
-//         print("no...data... found..");
-//         throw Exception('failed to select product');
-//       }
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//     update();
-//   }
+        print("...addto......");
+        print(addToOrderButtonModelEntity.value.toJson());
+      } else {
+        print("no...data... found..");
+        throw Exception('failed to select product');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    update();
+  }
 
 //   Map<String, String> newMap = {
 //     '1': '-',
@@ -523,21 +555,21 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //     '15': '+',
 //   };
 
-//   totalcalculation() async {
-//     // var total2 = 0.0;
-//     for (var amount in bulkAddAdjustmentslist.value.value) {
-//       // print(amount.total!);
-//       var agregate = double.tryParse(amount.total!.toString());
+  totalcalculation() async {
+    // var total2 = 0.0;
+    for (var amount in bulkAddAdjustmentslist.value.value) {
+      // print(amount.total!);
+      var agregate = double.tryParse(amount.total!.toString());
 
-//       total2 += agregate!;
-//       print(agregate.runtimeType);
-//       print("-=-=-=-$agregate-=-=-=-=-=-");
-//       print(total2);
-//     }
+      total2 += agregate!;
+      print(agregate.runtimeType);
+      print("-=-=-=-$agregate-=-=-=-=-=-");
+      print(total2);
+    }
 
-//     total1.value = total2;
-//     print("%%%%%%%${total1.value}%%%%%%%%");
-//   }
+    total1.value = total2;
+    print("%%%%%%%${total1.value}%%%%%%%%");
+  }
 
 //   totalAfterAdjustment() {
 //     adjustment = double.tryParse(quantityController1.value.text)!;
@@ -633,126 +665,126 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //     update();
 //   }
 
-//   adjustmentView() {
-//     addToOrders.value = true;
-//     addadjustments.value = false;
-//   }
+  adjustmentView() {
+    addToOrders.value = true;
+    addadjustments.value = false;
+  }
 
-//   Future<void> adjustmentlistApi() async {
-//     var baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/list/adjustments';
-//     var headers = {
-//       "APIKEY": apiKey,
-//       'Cookie': cooKie,
-//     };
-//     try {
-//       var url = Uri.http(baseUrl, endpoint);
+  Future<void> adjustmentlistApi() async {
+    var baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/list/adjustments';
+    var headers = {
+      "APIKEY": apiKey,
+      'Cookie': cooKie,
+    };
+    try {
+      var url = Uri.http(baseUrl, endpoint);
 
-//       var response = await http.get(
-//         url,
-//         headers: headers,
-//       );
-//       print(response);
-//       if (response.statusCode == 200) {
-//         AdjustmentListModelEntity.value =
-//             AdjustmentListModel.fromJson(jsonDecode(response.body));
-//         print("Adjustment active");
-//         print(AdjustmentListModelEntity.value.toJson());
-//       } else {
-//         print("adjustmet faild");
-//         throw Exception('failed to select adjstmnt');
-//       }
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//     update();
-//   }
+      var response = await http.get(
+        url,
+        headers: headers,
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        adjustmentListModelEntity.value =
+            OrderWholesaleAdjustmentListModel.fromJson(jsonDecode(response.body));
+        print("Adjustment active");
+        print(adjustmentListModelEntity.value.toJson());
+      } else {
+        print("adjustmet faild");
+        throw Exception('failed to select adjstmnt');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    update();
+  }
 
-//   Future<void> bulklistApi() async {
-//     bulkAddAdjustmentslist.value.value
-//         .add(AddAdjustmentsToOrdersModelEntity.value.data10);
+  // Future<void> bulklistApi() async {
+  //   bulkAddAdjustmentslist.value.value
+  //       .add(AddAdjustmentsToOrdersModelEntity.value.data10);
 
-//     update();
-//   }
+  //   update();
+  // }
 
-//   void addAdjustmentOrder(operator) async {
-//     final isValid6 = formKey6.currentState!.validate();
-//     Get.focusScope!.unfocus();
-//     if (isValid6) {
-//       formKey6.currentState!.save();
-//       // addToOrders1.value = false;
-//       print("////${quantityController1.value.text}////");
-//       await addAdjustmentOrderconfirmApi(operator);
-//       // addToOrders1.value = false;
-//       await bulklistApi();
-//       addToOrders1.value = false;
-//       update();
-//       refresh();
-//     }
-//   }
+  // void addAdjustmentOrder(operator) async {
+  //   final isValid6 = formKey6.currentState!.validate();
+  //   Get.focusScope!.unfocus();
+  //   if (isValid6) {
+  //     formKey6.currentState!.save();
+  //     // addToOrders1.value = false;
+  //     print("////${quantityController1.value.text}////");
+  //     await addAdjustmentOrderconfirmApi(operator);
+  //     // addToOrders1.value = false;
+  //     await bulklistApi();
+  //     addToOrders1.value = false;
+  //     update();
+  //     refresh();
+  //   }
+  // }
 
-//   Future<void> addAdjustmentOrderconfirmApi(operator) async {
-//     var _baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = 'api/create/preOrderLines';
-//     var headers = {
-//       "APIKEY": apiKey,
-//       'Cookie': cooKie,
-//     };
-//     print(adjustmentselected.value as String);
-//     print('$operator ${quantityController1.value.text}');
-//     print('$operator ${quantityController1.value.text}');
-//     var url = Uri.http(_baseUrl, endpoint);
-//     try {
-//       debugPrint("-------------ADJUSTMENT API START---------");
-//       var response = await http.post(
-//         url,
-//         headers: headers,
-//         body: jsonEncode({
-//           "OrdersLines": {
-//             "qty": 1,
-//             "adjustment_id":
-//                 //  "1",
-//                 "${adjustmentselected.value}",
-//             "line_value":
-//                 // "-10.00"
-//                 "${operator}${quantityController1.value.text}"
-//           },
-//           "customer_id": "1243",
-//           "total_pre_orderline_id": "",
-//           // "1673259",
-//           "pre_orderline_id": "",
-//           // "10012334",
-//           "total":
-//               // "16.60",
-//               "${operator}${quantityController1.value.text}",
-//           "discount_total": "",
-//           "product_ware_house_id": "29",
-//           "line_number": 2,
-//         }),
-//       );
-//       print(response);
-//       if (response.statusCode == 200) {
-//         AddAdjustmentsToOrdersModelEntity.value =
-//             AddAdjustmentToOrderModel.fromJson(jsonDecode(response.body));
-//         //isInitialized.value = true;
+  // Future<void> addAdjustmentOrderconfirmApi(operator) async {
+  //   var _baseUrl = 'winemonger.nintriva.com';
+  //   var endpoint = 'api/create/preOrderLines';
+  //   var headers = {
+  //     "APIKEY": apiKey,
+  //     'Cookie': cooKie,
+  //   };
+  //   print(adjustmentselected.value as String);
+  //   print('$operator ${quantityController1.value.text}');
+  //   print('$operator ${quantityController1.value.text}');
+  //   var url = Uri.http(_baseUrl, endpoint);
+  //   try {
+  //     debugPrint("-------------ADJUSTMENT API START---------");
+  //     var response = await http.post(
+  //       url,
+  //       headers: headers,
+  //       body: jsonEncode({
+  //         "OrdersLines": {
+  //           "qty": 1,
+  //           "adjustment_id":
+  //               //  "1",
+  //               "${adjustmentselected.value}",
+  //           "line_value":
+  //               // "-10.00"
+  //               "${operator}${quantityController1.value.text}"
+  //         },
+  //         "customer_id": "1243",
+  //         "total_pre_orderline_id": "",
+  //         // "1673259",
+  //         "pre_orderline_id": "",
+  //         // "10012334",
+  //         "total":
+  //             // "16.60",
+  //             "${operator}${quantityController1.value.text}",
+  //         "discount_total": "",
+  //         "product_ware_house_id": "29",
+  //         "line_number": 2,
+  //       }),
+  //     );
+  //     print(response);
+  //     if (response.statusCode == 200) {
+  //       AddAdjustmentsToOrdersModelEntity.value =
+  //           AddAdjustmentToOrderModel.fromJson(jsonDecode(response.body));
+  //       //isInitialized.value = true;
 
-//         print('addadjustment active;,,,,,,,');
-//         print(AddAdjustmentsToOrdersModelEntity.value.toJson());
-//         debugPrint("-------------ADJUSTMENT API succes end---------");
+  //       print('addadjustment active;,,,,,,,');
+  //       print(AddAdjustmentsToOrdersModelEntity.value.toJson());
+  //       debugPrint("-------------ADJUSTMENT API succes end---------");
 
-//         findIndex(operator);
-//         print(operator);
-//       } else {
-//         debugPrint("-------------ADJUSTMENT API failed end--------");
-//         print('addadjstmt faild.....');
-//         throw Exception('Failed to SELECT product');
-//       }
-//     } catch (e) {
-//       debugPrint("-------------ADJUSTMENT API catch end---------");
-//       print(e.toString());
-//     }
-//     update();
-//   }
+  //       findIndex(operator);
+  //       print(operator);
+  //     } else {
+  //       debugPrint("-------------ADJUSTMENT API failed end--------");
+  //       print('addadjstmt faild.....');
+  //       throw Exception('Failed to SELECT product');
+  //     }
+  //   } catch (e) {
+  //     debugPrint("-------------ADJUSTMENT API catch end---------");
+  //     print(e.toString());
+  //   }
+  //   update();
+  // }
 
 //   findIndex(dynamic operator) {
 //     indexf.value = operator.toString();

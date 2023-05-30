@@ -17,8 +17,8 @@ List<GetPage> routes() => [
       GetPage(
           name: "/",
           page: () => 
-          // const CreateOrderScreen(),
-           const SplashScreen(),
+        //  const CreateOrderScreen(),
+          const SplashScreen(),
           transition: Transition.fadeIn
           ),
       GetPage(

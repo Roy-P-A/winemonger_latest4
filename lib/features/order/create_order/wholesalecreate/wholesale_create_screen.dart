@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale_create_controller.dart';
+import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/confirmProductWidget.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/product/product_field_widget.dart';
 
 import 'widgets/manufacture/manufacture_widgets.dart';
+import 'widgets/ordered_product_widget.dart';
 import 'widgets/select_customer/select_customer_text_field.dart';
 import 'widgets/warehouse/warehouse_widget.dart';
 
@@ -51,12 +53,12 @@ class WholeSaleCreateOrderList extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              // _controller.selectButtonToAddToOrders.value == true
-              //     ? ConfirmingProductWidget()
-              //     : Container(),
-              // _controller.addToOrders.value == true
-              //     ? OrderedProductWidget()
-              //     : Container(),
+              controller.selectButtonToAddToOrders.value == true
+                  ? const ConfirmProductWidgets ()
+                  : Container(),
+              controller.addToOrders.value == true
+                  ? const OrderedProductWidget()
+                  : Container(),
 
               // AdjustmentWidget(),
               const SizedBox(
@@ -100,8 +102,11 @@ class WholeSaleCreateOrderList extends StatelessWidget {
                     fontWeight: FontWeight.w600, color: Colors.black)),
           ),
           onTap: () async {
+
 controller.checkProductButton();
+
 await controller.productButtonApi();
+// controller.fieldClear();
 
             
             // _controller.selectProductButton();
