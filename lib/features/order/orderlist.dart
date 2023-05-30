@@ -168,30 +168,35 @@ class OrderList extends StatelessWidget {
                                                     ),
                                                   ),
                                                   _controller
-                                                              .bulklist
-                                                              .value[j]
-                                                              .orderShipments[0]
-                                                              .dataSubmitted
-                                                              .toString() ==
-                                                          "1"
-                                                      ? Expanded(
-                                                          flex: 2,
-                                                          child: Text(
-                                                            "Order Delivered",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ))
-                                                      : Expanded(
-                                                          flex: 2,
-                                                          child: Text(
-                                                            "On the way",
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          )),
+                                                                .bulklist
+                                                                .value[j]
+                                                                .orderShipments.length > 0 ?  Container(
+                                                    child: _controller
+                                                                .bulklist
+                                                                .value[j]
+                                                                .orderShipments[0]
+                                                                .dataSubmitted
+                                                                .toString() ==
+                                                            "1"
+                                                        ? Expanded(
+                                                            flex: 2,
+                                                            child: Text(
+                                                              "Order Delivered",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            ))
+                                                        : Expanded(
+                                                            flex: 2,
+                                                            child: Text(
+                                                              "On the way",
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                            )),
+                                                  ):SizedBox()
                                                 ],
                                               ),
                                               Divider(
@@ -224,32 +229,37 @@ class OrderList extends StatelessWidget {
                                           ),
                                         ),
                                         _controller
-                                                    .bulklist
-                                                    .value[j]
-                                                    .orderShipments[0]
-                                                    .dataSubmitted
-                                                    .toString() ==
-                                                "1"
-                                            ? Expanded(
-                                                flex: 1,
-                                                child: Align(
-                                                  alignment:
-                                                      Alignment.topCenter,
+                                                      .bulklist
+                                                      .value[j]
+                                                      .orderShipments.length > 0 ? Container(
+                                          child: _controller
+                                                      .bulklist
+                                                      .value[j]
+                                                      .orderShipments[0]
+                                                      .dataSubmitted
+                                                      .toString() ==
+                                                  "1"
+                                              ? Expanded(
+                                                  flex: 1,
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    child: Iconify(
+                                                      Ic.outline_check_circle_outline,
+                                                      color: Color(0xff34ad09),
+                                                      size: 35,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Expanded(
+                                                  flex: 1,
                                                   child: Iconify(
-                                                    Ic.outline_check_circle_outline,
-                                                    color: Color(0xff34ad09),
+                                                    La.shipping_fast,
+                                                    color: Color(0xffa1a1a1),
                                                     size: 35,
                                                   ),
                                                 ),
-                                              )
-                                            : Expanded(
-                                                flex: 1,
-                                                child: Iconify(
-                                                  La.shipping_fast,
-                                                  color: Color(0xffa1a1a1),
-                                                  size: 35,
-                                                ),
-                                              ),
+                                        ):SizedBox()
                                         ],
                                       )),
                                   onTap: () {
