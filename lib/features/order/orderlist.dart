@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 import 'package:winemonger/features/order/order_controller.dart';
 import 'package:winemonger/utils/theme/theme_constants.dart';
+import 'package:iconify_flutter/icons/la.dart';
+import 'package:iconify_flutter/icons/ic.dart';
 
 class OrderList extends StatelessWidget {
   OrderList({Key? key}) : super(key: key);
@@ -137,14 +140,116 @@ class OrderList extends StatelessWidget {
                                       width: double.infinity,
                                       child: Row(
                                         children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: Text(
-                                                "${_controller.bulklist.value[j].customerName!}",
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w700)),
+                                            Expanded(
+                                          flex: 4,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  "${_controller.bulklist.value[j].customerName!}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700)),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      "Status",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xffa1a1a1),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  _controller
+                                                              .bulklist
+                                                              .value[j]
+                                                              .orderShipments[0]
+                                                              .dataSubmitted
+                                                              .toString() ==
+                                                          "1"
+                                                      ? Expanded(
+                                                          flex: 2,
+                                                          child: Text(
+                                                            "Order Delivered",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ))
+                                                      : Expanded(
+                                                          flex: 2,
+                                                          child: Text(
+                                                            "On the way",
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          )),
+                                                ],
+                                              ),
+                                              Divider(
+                                                thickness: 1.5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      "OrderId",
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xffa1a1a1),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                      flex: 2,
+                                                      child: Text(
+                                                        "#${_controller.bulklist.value[j].orderId!}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      )),
+                                                ],
+                                              ),
+                                            ],
                                           ),
+                                        ),
+                                        _controller
+                                                    .bulklist
+                                                    .value[j]
+                                                    .orderShipments[0]
+                                                    .dataSubmitted
+                                                    .toString() ==
+                                                "1"
+                                            ? Expanded(
+                                                flex: 1,
+                                                child: Align(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  child: Iconify(
+                                                    Ic.outline_check_circle_outline,
+                                                    color: Color(0xff34ad09),
+                                                    size: 35,
+                                                  ),
+                                                ),
+                                              )
+                                            : Expanded(
+                                                flex: 1,
+                                                child: Iconify(
+                                                  La.shipping_fast,
+                                                  color: Color(0xffa1a1a1),
+                                                  size: 35,
+                                                ),
+                                              ),
                                         ],
                                       )),
                                   onTap: () {
