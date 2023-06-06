@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale_create_controller.dart';
+import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/Adjustment/quantity_textfield_widget.dart';
 
 import 'costfield_widget.dart';
 
@@ -21,15 +22,15 @@ class AdjustmentWidget extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                CostTextfield(),
+                const CostTextfield(),
                 const SizedBox(
                   height: 10,
                 ),
-                // QauntityTextField(),
+                QauntityTextField(),
                 const SizedBox(
                   height: 10,
                 ),
-                AddButtonWidget(),
+                const AddButtonWidget(),
                 const SizedBox(
                   height: 10,
                 )
@@ -80,7 +81,7 @@ class AddButtonWidget extends StatelessWidget {
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
-                      color: Colors.green[200],
+                      color: const Color(0xffcae3a8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.4),
@@ -105,7 +106,7 @@ class AddButtonWidget extends StatelessWidget {
                         print("hello ${value}");
                         
                         // controller.totalAfterAdjustment();
-                        // controller.addAdjustmentOrder(value);
+                        controller.addAdjustmentOrder(value);
                       }
                       // Key: a, Value: 1 ...
                     }

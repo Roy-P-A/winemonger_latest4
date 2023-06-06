@@ -28,7 +28,9 @@ class WareHouseField extends StatelessWidget {
                       () => DropdownButtonFormField2(
                         isExpanded: true,
                         validator: (value) {
-                          return controller
+                          return 
+                          
+                          controller
                               .warehouseNamevalidator(value as String);
                         },
                         isDense: true,
@@ -49,8 +51,9 @@ class WareHouseField extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5))),
                         items: controller.users
                             .map(
-                              (item) => DropdownMenuItem<String>(
+                              (item) =>  DropdownMenuItem<String>(
                                 value: item.id,
+                                
                                 child: Text(
                                   item.name,
                                   // style: DefaultTextStyle.of(context)

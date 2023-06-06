@@ -77,7 +77,7 @@ class OrdersController extends GetxController with SnackbarMixin {
       );
       orderModelEntity.value =
           await ApiRepository.to.fetchOrders(request: request);
-      //print("heeep${orderModelEntity.value.toJson()}");
+      print("heeep${orderModelEntity.value.toJson()}");
       await Future.delayed(const Duration(seconds: 1));
 
       //bulklist.value.addAll(orderModelEntity.value);

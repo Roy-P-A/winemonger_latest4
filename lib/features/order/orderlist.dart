@@ -147,17 +147,17 @@ class OrderList extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                  "${_controller.bulklist.value[j].customerName!}",
-                                                  style: TextStyle(
+                                                  _controller.bulklist.value[j].customerName!,
+                                                  style: const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.w700)),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 10,
                                               ),
                                               Row(
                                                 children: [
-                                                  Expanded(
+                                                  const Expanded(
                                                     flex: 1,
                                                     child: Text(
                                                       "Status",
@@ -178,7 +178,7 @@ class OrderList extends StatelessWidget {
                                                                 .dataSubmitted
                                                                 .toString() ==
                                                             "1"
-                                                        ? Expanded(
+                                                        ? const Expanded(
                                                             flex: 2,
                                                             child: Text(
                                                               "Order Delivered",
@@ -187,7 +187,7 @@ class OrderList extends StatelessWidget {
                                                                       FontWeight
                                                                           .w600),
                                                             ))
-                                                        : Expanded(
+                                                        : const Expanded(
                                                             flex: 2,
                                                             child: Text(
                                                               "On the way",
@@ -196,15 +196,15 @@ class OrderList extends StatelessWidget {
                                                                       FontWeight
                                                                           .w600),
                                                             )),
-                                                  ):SizedBox()
+                                                  ):const SizedBox()
                                                 ],
                                               ),
-                                              Divider(
+                                              const Divider(
                                                 thickness: 1.5,
                                               ),
                                               Row(
                                                 children: [
-                                                  Expanded(
+                                                  const Expanded(
                                                     flex: 1,
                                                     child: Text(
                                                       "OrderId",
@@ -218,7 +218,7 @@ class OrderList extends StatelessWidget {
                                                       flex: 2,
                                                       child: Text(
                                                         "#${_controller.bulklist.value[j].orderId!}",
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w600),
@@ -239,7 +239,7 @@ class OrderList extends StatelessWidget {
                                                       .dataSubmitted
                                                       .toString() ==
                                                   "1"
-                                              ? Expanded(
+                                              ? const Expanded(
                                                   flex: 1,
                                                   child: Align(
                                                     alignment:
@@ -251,7 +251,7 @@ class OrderList extends StatelessWidget {
                                                     ),
                                                   ),
                                                 )
-                                              : Expanded(
+                                              : const Expanded(
                                                   flex: 1,
                                                   child: Iconify(
                                                     La.shipping_fast,
@@ -259,7 +259,7 @@ class OrderList extends StatelessWidget {
                                                     size: 35,
                                                   ),
                                                 ),
-                                        ):SizedBox()
+                                        ):const SizedBox()
                                         ],
                                       )),
                                   onTap: () {

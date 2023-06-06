@@ -14,23 +14,29 @@ class CostTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final WholeSaleCreateController controller = Get.find();
-    List<AdjUser> users = <AdjUser>[const AdjUser("0", "Select Adjustments")];
+    // List<AdjUser> users = <AdjUser>[const AdjUser("0", "Select Adjustments")];
 
-    for (int i = 0;
-        i < controller.adjustmentListModelEntity.value.data9.length;
-        i++) {
-      users.add(
-        AdjUser(
-            controller
-                    .adjustmentListModelEntity.value.data9[i].adjustmentSkuId ??
-                " ",
-            controller.adjustmentListModelEntity.value.data9[i]
-                    .adjustmentSkuDescription ??
-                " "),
-      );
-    }
 
-    return Obx(() => Column(
+
+    // for (int i = 0;
+    //     i < controller.adjustmentListModelEntity.value.data9.length;
+    //     i++) {
+          
+    //   users.add(
+    //     AdjUser(
+    //         controller
+    //                 .adjustmentListModelEntity.value.data9[i].adjustmentSkuId ??
+    //             " ",
+    //         controller.adjustmentListModelEntity.value.data9[i]
+    //                 .adjustmentSkuDescription ??
+    //             " "),
+    //   );
+    // }
+  return
+          GetBuilder<WholeSaleCreateController>(
+        init: WholeSaleCreateController(),
+        builder: (controller) {
+    return Obx(()=>Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             for (int i = 0;
@@ -65,12 +71,13 @@ class CostTextfield extends StatelessWidget {
                     ),
                   ],
                 ),
+                Obx(()=>
             DropdownButtonHideUnderline(
               child: DropdownButtonFormField2(
                 isExpanded: true,
                 hint: const Text("Select Adjustments"),
                 decoration: InputDecoration(
-                  isDense: false,
+                  isDense: true,
                   contentPadding: const EdgeInsets.only(
                       left: 10, right: 10, top: 0, bottom: 0),
                   fillColor: Colors.white,
@@ -82,11 +89,11 @@ class CostTextfield extends StatelessWidget {
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                items: users
+                items: controller.adjusers
                     .map((item) => DropdownMenuItem<String>(
-                          value: item.id,
+                          value: item.id.toString(),
                           child: Text(
-                            item.name,
+                            item.name.toString(),
                             style: const TextStyle(
                               color: Colors.black,
                             ),
@@ -103,7 +110,7 @@ class CostTextfield extends StatelessWidget {
                 value: controller.adjustmentselected.value.isNotEmpty
                     ? controller.adjustmentselected.value
                     : null,
-                icon: const Icon(
+                icon: const Icon( 
                   Icons.keyboard_arrow_down,
                 ),
                 iconSize: 20,
@@ -122,10 +129,10 @@ class CostTextfield extends StatelessWidget {
                 scrollbarThickness: 4,
                 scrollbarAlwaysShow: true,
               ),
-            ),
+            ),)
 
             ///
           ],
-        ));
+      ));});
   }
 }

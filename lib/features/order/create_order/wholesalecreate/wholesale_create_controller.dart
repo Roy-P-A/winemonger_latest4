@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../applogin/app_string.dart';
 import '../../../../mixins/snackbar_mixin.dart';
@@ -12,13 +13,18 @@ import '../../../../models/customer_model.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleadjustmentlistmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalefilterproductmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalemanufacturermodel.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectaddadjustmentstoordersmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectaddtoordersmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectproductbuttonmodel.dart';
 import '../../../../models/warehouse_model.dart';
+import 'widgets/Adjustment/adjustment_widget.dart';
 import 'widgets/manufacture/manufacture_widgets.dart';
 import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateController extends GetxController with SnackbarMixin {
+  var isLoading=false.obs;
+
+  
   var customerController1 = TextEditingController().obs;
   var customerController2 = TextEditingController().obs;
   var productController = TextEditingController().obs;
@@ -51,11 +57,12 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   var addToOrderButtonModelEntity =
       OrderWholesaleSelectAddToOrdersModel(data7: Data7()).obs;
 
-  var adjustmentListModelEntity =
-      OrderWholesaleAdjustmentListModel (data9: List<Data9>.empty(growable: true)).obs;
+  var adjustmentListModelEntity = OrderWholesaleAdjustmentListModel(
+          data9: List<Data9>.empty(growable: true))
+      .obs;
 
-//   var AddAdjustmentsToOrdersModelEntity =
-//       AddAdjustmentToOrderModel(data10: Data10()).obs;
+  var addAdjustmentsToOrdersModelEntity =
+      OrderWholesaleSelectAddAdjustmentsToOrdersModel(data10: Data10()).obs;
 //   var deleteproductmodelEntity = DeletProductModel().obs;
 
 //   var RemoveAdjustmentModelEntity = RemoveAdjustment().obs;
@@ -171,8 +178,11 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     }
     return null;
   }
+  // var adjusers = <AdjUser>[const AdjUser("0", "Select adjustment")].obs;
 
   var adjustmentselected = "0".obs;
+   var adjusers =  <AdjUser>[
+          const AdjUser("0", "Select Adjustments")];
 
   void setSelected3(String value) {
     adjustmentselected.value = value;
@@ -183,7 +193,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //   //=============================================>Warehouse variables
 
   final bulkAddAdjustmentslist = Rx<List<dynamic>>([]).obs;
-//   final orderBulklist = Rx<List<dynamic>>([]).obs;
+  final orderBulklist = Rx<List<dynamic>>([]).obs;
 //   // final fulltotal = (0.0).obs;
 //   //String totalAmount = '0';
   RxDouble total1 = (0.0).obs;
@@ -191,31 +201,24 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   RxDouble grandTotal = (0.0).obs;
   var adjustment = 0.0;
 
-//   final indexf = "".obs;
+  final indexf = "".obs;
 
   @override
-  void onInit() async {
-    // await customerDetailApi('a');
-
-    // manuFactureApi();
-
-    // filterProductApi();
-    // productButtonApi();
-
-    // await addAdjustmentOrderconfirmApi("");
-
+  void onInit()async {
+    // TODO: implement onInit
     super.onInit();
     await WareHouseApi();
-    // await adjustmentlistApi();
-    // addToOrdersApi();
+    await adjustmentlistApi();
+
+
   }
 
   @override
   void onClose() {
-    customerController1.value.dispose();
-    customerController2.value.dispose();
+    // customerController1.value.dispose();
+    // customerController2.value.dispose();
     warehouseselected.value = '0';
-    // manufactureselected.value = '0';
+    manufactureselected.value = '0';
     // productController.value.dispose();
     // productController1.value.dispose();
     super.onClose();
@@ -227,14 +230,16 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     super.dispose();
   }
 
-  fieldClear() {
-    customerController1.value.clear();
-    customerController2.value.clear();
-    warehouseselected.value = '0';
-    manufactureselected.value = '0';
-    productController.value.clear();
-    productController1.value.clear();
-  }
+  // fieldClear() {
+  //   customerController1.value.clear();
+  //   customerController2.value.clear();
+  //   warehouseselected.value = '0';
+  //   manufactureselected.value = '0';
+  //   productController.value.clear();
+  //   productController1.value.clear();
+  //   refresh();
+  //   update();
+  // }
 
 //   filediterator() {
 //     //var temp = users.value.first;
@@ -277,6 +282,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(e.toString());
     }
     update();
+    refresh();
   }
 
 //   Future<void> customerDetailApi(value) async {
@@ -343,6 +349,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(() => e.toString());
     }
     update();
+    refresh();
   }
 
   Future<void> filterProductApi() async {
@@ -379,6 +386,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(() => e.toString());
     }
     update();
+    refresh();
   }
 
   Future<void> productButtonApi() async {
@@ -411,6 +419,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(e.toString());
     }
     update();
+    refresh();
   }
 
   Future<void> addToOrdersValidations() async {
@@ -439,16 +448,31 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       addToOrders.value = true;
       selectButtonToAddToOrders.value = false;
       await bulklist1Api();
-      // await totalcalculation();
+      update();
+       await totalcalculation();
 
       // print(customerController1.value.text);
     }
+
+    //   else if(isValid5==false){
+    //     formKey5.currentState!.dispose();
+    //     addToOrders.value=false;
+    //  productButtonModelEntity.value.id="";
+    //  quantityController.value.clear();
+    //  productButtonModelEntity.value.sku="";
+    //  productButtonModelEntity.value.name="";
+
+    //  productButtonModelEntity.value.wholesalePrice="";
+    //  update();
+
+    //   }
   }
 
   Future<void> bulklist1Api() async {
     bulkAddAdjustmentslist.value.value
         .add(addToOrderButtonModelEntity.value.data7);
     // Operation();
+    update();
   }
 
   Future<void> addToOrdersApi({
@@ -536,59 +560,65 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(e.toString());
     }
     update();
+    refresh();
   }
 
-//   Map<String, String> newMap = {
-//     '1': '-',
-//     '2': '-',
-//     '3': '-',
-//     '4': '-',
-//     '5': '-',
-//     '6': '-',
-//     '7': '+',
-//     '8': '+',
-//     '9': '+',
-//     '10': '+',
-//     '12': '+',
-//     '13': '+',
-//     '14': '+',
-//     '15': '+',
-//   };
+  Map<String, String> newMap = {
+    '1': '-',
+    '2': '-',
+    '3': '-',
+    '4': '-',
+    '5': '-',
+    '6': '-',
+    '7': '+',
+    '8': '+',
+    '9': '+',
+    '10': '+',
+    '12': '+',
+    '13': '+',
+    '14': '+',
+    '15': '+',
+  };
 
   totalcalculation() async {
     // var total2 = 0.0;
     for (var amount in bulkAddAdjustmentslist.value.value) {
       // print(amount.total!);
+      
       var agregate = double.tryParse(amount.total!.toString());
-
-      total2 += agregate!;
+      
+      total2 +=agregate!;
       print(agregate.runtimeType);
       print("-=-=-=-$agregate-=-=-=-=-=-");
-      print(total2);
+      print("disp:$total2");
+      amount.total = 0;
     }
-
-    total1.value = total2;
+     total1.value = total2;
     print("%%%%%%%${total1.value}%%%%%%%%");
+    return total2;
+   
+
+   
   }
 
-//   totalAfterAdjustment() {
-//     adjustment = double.tryParse(quantityController1.value.text)!;
+  totalAfterAdjustment() {
+    adjustment = double.tryParse(quantityController1.value.text)!;
 
-//     // grandTotal.value= total2-adjustment;
-//     print("findIndex:${indexf.value}");
-//     print("findIndex:${indexf.value.runtimeType}");
-//     Function deepEq = const DeepCollectionEquality().equals;
-//     var isSuccess = deepEq(indexf.value, "-");
+    // grandTotal.value= total2-adjustment;
+    print("findIndex:${indexf.value}");
+    print("findIndex:${indexf.value.runtimeType}");
+    Function deepEq = const DeepCollectionEquality().equals;
+    var isSuccess = deepEq(indexf.value, "-");
 
-//     if (isSuccess) {
-//       grandTotal.value = total2 + adjustment;
-//     } else {
-//       grandTotal.value = total2 - adjustment;
-//     }
+    if (isSuccess) {
+      grandTotal.value = total2 + adjustment;
+    } else {
+      grandTotal.value = total2 - adjustment;
+    }
 
-//     print("haiii${grandTotal.value}helio");
-//     print("adjustment value:${adjustment}");
-//   }
+    print("haiii${grandTotal.value}helio");
+    print("adjustment value:${adjustment}");
+  }
 
 //   void removeToOrders() async {
 //     await removeToOrdersApi(
@@ -670,6 +700,8 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     addadjustments.value = false;
   }
 
+  // var adjuser = <AdjUser>[const AdjUser("0", "sSelect Adjustmentse")].obs;
+
   Future<void> adjustmentlistApi() async {
     var baseUrl = 'winemonger.nintriva.com';
     var endpoint = 'api/list/adjustments';
@@ -684,10 +716,24 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
         url,
         headers: headers,
       );
-      print(response);
+      // print(response);
       if (response.statusCode == 200) {
         adjustmentListModelEntity.value =
-            OrderWholesaleAdjustmentListModel.fromJson(jsonDecode(response.body));
+            OrderWholesaleAdjustmentListModel.fromJson(
+                jsonDecode(response.body));
+        // List<AdjUser> users = <AdjUser>[
+        //   const AdjUser("0", "Select Adjustments")
+        // ];
+
+        for (int i = 0; i < adjustmentListModelEntity.value.data9.length; i++) {
+          adjusers.add(
+            AdjUser(
+                adjustmentListModelEntity.value.data9[i].adjustmentSkuId !,
+                adjustmentListModelEntity.value.data9[i].adjustmentSkuDescription!
+                        
+                  ),
+          );
+        }
         print("Adjustment active");
         print(adjustmentListModelEntity.value.toJson());
       } else {
@@ -698,97 +744,100 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
       print(e.toString());
     }
     update();
+    refresh();
   }
 
-  // Future<void> bulklistApi() async {
-  //   bulkAddAdjustmentslist.value.value
-  //       .add(AddAdjustmentsToOrdersModelEntity.value.data10);
+  Future<void> bulklistApi() async {
+    bulkAddAdjustmentslist.value.value
+        .add(addAdjustmentsToOrdersModelEntity.value.data10);
 
-  //   update();
-  // }
+    update();
+    refresh();
+  }
 
-  // void addAdjustmentOrder(operator) async {
-  //   final isValid6 = formKey6.currentState!.validate();
-  //   Get.focusScope!.unfocus();
-  //   if (isValid6) {
-  //     formKey6.currentState!.save();
-  //     // addToOrders1.value = false;
-  //     print("////${quantityController1.value.text}////");
-  //     await addAdjustmentOrderconfirmApi(operator);
-  //     // addToOrders1.value = false;
-  //     await bulklistApi();
-  //     addToOrders1.value = false;
-  //     update();
-  //     refresh();
-  //   }
-  // }
+  void addAdjustmentOrder(operator) async {
+    final isValid6 = formKey6.currentState!.validate();
+    Get.focusScope!.unfocus();
+    if (isValid6) {
+      formKey6.currentState!.save();
+      // addToOrders1.value = false;
+      print("////${quantityController1.value.text}////");
+      await addAdjustmentOrderconfirmApi(operator);
+      // addToOrders1.value = false;
+      await bulklistApi();
+      addToOrders1.value = false;
+      update();
+      refresh();
+    }
+  }
 
-  // Future<void> addAdjustmentOrderconfirmApi(operator) async {
-  //   var _baseUrl = 'winemonger.nintriva.com';
-  //   var endpoint = 'api/create/preOrderLines';
-  //   var headers = {
-  //     "APIKEY": apiKey,
-  //     'Cookie': cooKie,
-  //   };
-  //   print(adjustmentselected.value as String);
-  //   print('$operator ${quantityController1.value.text}');
-  //   print('$operator ${quantityController1.value.text}');
-  //   var url = Uri.http(_baseUrl, endpoint);
-  //   try {
-  //     debugPrint("-------------ADJUSTMENT API START---------");
-  //     var response = await http.post(
-  //       url,
-  //       headers: headers,
-  //       body: jsonEncode({
-  //         "OrdersLines": {
-  //           "qty": 1,
-  //           "adjustment_id":
-  //               //  "1",
-  //               "${adjustmentselected.value}",
-  //           "line_value":
-  //               // "-10.00"
-  //               "${operator}${quantityController1.value.text}"
-  //         },
-  //         "customer_id": "1243",
-  //         "total_pre_orderline_id": "",
-  //         // "1673259",
-  //         "pre_orderline_id": "",
-  //         // "10012334",
-  //         "total":
-  //             // "16.60",
-  //             "${operator}${quantityController1.value.text}",
-  //         "discount_total": "",
-  //         "product_ware_house_id": "29",
-  //         "line_number": 2,
-  //       }),
-  //     );
-  //     print(response);
-  //     if (response.statusCode == 200) {
-  //       AddAdjustmentsToOrdersModelEntity.value =
-  //           AddAdjustmentToOrderModel.fromJson(jsonDecode(response.body));
-  //       //isInitialized.value = true;
+  Future<void> addAdjustmentOrderconfirmApi(operator) async {
+    var _baseUrl = 'winemonger.nintriva.com';
+    var endpoint = 'api/create/preOrderLines';
+    var headers = {
+      "APIKEY": apiKey,
+      'Cookie': cooKie,
+    };
+    print(adjustmentselected.value as String);
+    print('$operator ${quantityController1.value.text}');
+    print('$operator ${quantityController1.value.text}');
+    var url = Uri.http(_baseUrl, endpoint);
+    try {
+      debugPrint("-------------ADJUSTMENT API START---------");
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode({
+          "OrdersLines": {
+            "qty": 1,
+            "adjustment_id":
+                //  "1",
+                "${adjustmentselected.value}",
+            "line_value":
+                // "-10.00"
+                "${operator}${quantityController1.value.text}"
+          },
+          "customer_id": "1243",
+          "total_pre_orderline_id": "",
+          // "1673259",
+          "pre_orderline_id": "",
+          // "10012334",
+          "total":
+              // "16.60",
+              "${operator}${quantityController1.value.text}",
+          "discount_total": "",
+          "product_ware_house_id": "29",
+          "line_number": 2,
+        }),
+      );
+      print(response);
+      if (response.statusCode == 200) {
+        addAdjustmentsToOrdersModelEntity.value =
+            OrderWholesaleSelectAddAdjustmentsToOrdersModel.fromJson(
+                jsonDecode(response.body));
+        //isInitialized.value = true;
 
-  //       print('addadjustment active;,,,,,,,');
-  //       print(AddAdjustmentsToOrdersModelEntity.value.toJson());
-  //       debugPrint("-------------ADJUSTMENT API succes end---------");
+        print('addadjustment active;,,,,,,,');
+        print(addAdjustmentsToOrdersModelEntity.value.toJson());
+        debugPrint("-------------ADJUSTMENT API succes end---------");
 
-  //       findIndex(operator);
-  //       print(operator);
-  //     } else {
-  //       debugPrint("-------------ADJUSTMENT API failed end--------");
-  //       print('addadjstmt faild.....');
-  //       throw Exception('Failed to SELECT product');
-  //     }
-  //   } catch (e) {
-  //     debugPrint("-------------ADJUSTMENT API catch end---------");
-  //     print(e.toString());
-  //   }
-  //   update();
-  // }
+        findIndex(operator);
+        print(operator);
+      } else {
+        debugPrint("-------------ADJUSTMENT API failed end--------");
+        print('addadjstmt faild.....');
+        throw Exception('Failed to SELECT product');
+      }
+    } catch (e) {
+      debugPrint("-------------ADJUSTMENT API catch end---------");
+      print(e.toString());
+    }
+    update();
+  }
 
-//   findIndex(dynamic operator) {
-//     indexf.value = operator.toString();
-//   }
+  findIndex(dynamic operator) {
+    indexf.value = operator.toString();
+  }
 
 //   Future<void> removeAdjustmentAPi({id, total, totalPreorderlineid}) async {
 //     var baseUrl = 'winemonger.nintriva.com';
@@ -845,20 +894,20 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 //     await createOrderValidation();
 //   }
 
-//   Future<void> createOrderValidation() async {
-//     await createOrderApi(
-//       orderlineIds: {
-//         AddAdjustmentsToOrdersModelEntity.value.data10.id,
-//         AddToOrderButtonModelEntity.value.data7.id
-//       },
-//       manufacturer: manufactureselected.value,
-//       preorderlineId: AddToOrderButtonModelEntity.value.data7.preOrderlineId,
-//     );
+  // Future<void> createOrderValidation() async {
+  //   await createOrderApi(
+  //     orderlineIds: {
+  //       AddAdjustmentsToOrdersModelEntity.value.data10.id,
+  //       AddToOrderButtonModelEntity.value.data7.id
+  //     },
+  //     manufacturer: manufactureselected.value,
+  //     preorderlineId: AddToOrderButtonModelEntity.value.data7.preOrderlineId,
+  //   );
 
-//     // await createOrderApi();
-//     addToOrders.value = true;
-//     // addadjustments.value = false;
-//   }
+  //   // await createOrderApi();
+  //   addToOrders.value = true;
+  //   // addadjustments.value = false;
+  // }
 
 //   Future<void> createOrderApi(
 //       {orderlineIds, manufacturer, preorderlineId}) async {

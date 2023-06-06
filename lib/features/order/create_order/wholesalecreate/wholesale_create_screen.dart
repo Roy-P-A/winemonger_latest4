@@ -5,13 +5,14 @@ import 'package:winemonger/features/order/create_order/wholesalecreate/wholesale
 import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/confirmProductWidget.dart';
 import 'package:winemonger/features/order/create_order/wholesalecreate/widgets/product/product_field_widget.dart';
 
+import 'widgets/Adjustment/adjustment_widget.dart';
 import 'widgets/manufacture/manufacture_widgets.dart';
 import 'widgets/ordered_product_widget.dart';
 import 'widgets/select_customer/select_customer_text_field.dart';
 import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateOrderList extends StatelessWidget {
-  WholeSaleCreateOrderList({Key? key}) : super(key: key);
+const   WholeSaleCreateOrderList({Key? key}) : super(key: key);
 
 
 
@@ -60,11 +61,11 @@ class WholeSaleCreateOrderList extends StatelessWidget {
                   ? const OrderedProductWidget()
                   : Container(),
 
-              // AdjustmentWidget(),
+              const AdjustmentWidget(),
               const SizedBox(
                 height: 10,
               ),
-              // _totalAndConfirm(context),
+              _totalAndConfirm(context,controller),
               const SizedBox(
                 height: 10,
               ),
@@ -122,29 +123,30 @@ await controller.productButtonApi();
     );
   }
 
-  Widget _totalAndConfirm(BuildContext context) {
-    final WholeSaleCreateController _controller = Get.find();
+  Widget _totalAndConfirm(BuildContext context, WholeSaleCreateController controller) {
+    // final WholeSaleCreateController controller = Get.find();
     return Obx(
       () => Column(
         children: [
           Row(children: [
-            const Expanded(
+             const Expanded(
               flex: 1,
               child: Text(
                 'Total',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            // Expanded(
-            //   flex: 1,
-            //   child: Align(
-            //     alignment: Alignment.centerRight,
-            //     child: Text(
-            //       _controller.totalValue.value.toString(),
-            //       style: const TextStyle(fontWeight: FontWeight.bold),
-            //     ),
-            //   ),
-            // ),
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(controller.adjustment==0?
+                  controller.total1.value.toString():
+                  controller.grandTotal.value.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
           ]),
           const SizedBox(
             height: 30,

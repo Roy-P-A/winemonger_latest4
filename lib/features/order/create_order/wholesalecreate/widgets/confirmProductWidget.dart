@@ -154,7 +154,7 @@ class ConfirmProductWidgets extends StatelessWidget {
                   onTap: () async {
                     if (controller.productButtonModelEntity.value.id != null) {
                       await controller.addToOrdersValidations();
-                     await controller.fieldClear();
+                    //  await controller.fieldClear();
 
                     }
                     // await controller.totalcalculation();
