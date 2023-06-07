@@ -96,7 +96,7 @@ class AddButtonWidget extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.black)),
                   ),
-                  onTap: () {
+                  onTap: () async{
                     for (final mapEntry in map1.entries) {
                       final key = mapEntry.key;
                       final value = mapEntry.value;
@@ -105,7 +105,7 @@ class AddButtonWidget extends StatelessWidget {
                         print("hello ${key}");
                         print("hello ${value}");
                         
-                        // controller.totalAfterAdjustment();
+                        await controller.totalAfterAdjustment();
                         controller.addAdjustmentOrder(value);
                       }
                       // Key: a, Value: 1 ...
@@ -117,6 +117,7 @@ class AddButtonWidget extends StatelessWidget {
                     // });
 
                     controller.adjustmentView();
+                    controller.adjustmentselected.value="0";
                   },
                 ),
           ],

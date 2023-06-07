@@ -60,8 +60,8 @@ const   WholeSaleCreateOrderList({Key? key}) : super(key: key);
               controller.addToOrders.value == true
                   ? const OrderedProductWidget()
                   : Container(),
-
-              const AdjustmentWidget(),
+controller.addToOrders.value==true?
+              const AdjustmentWidget():Container(),
               const SizedBox(
                 height: 10,
               ),

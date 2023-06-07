@@ -18,81 +18,94 @@ class WareHouseField extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("WareHouse"),
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                     const Text("WareHouse"),
+                     controller.isLoadingWarehouse?const SizedBox(height: 11,width: 11,child: 
+                      CircularProgressIndicator(strokeWidth: 2.5,color:  Color(0xffcae3a8),),)
+                     :const SizedBox()
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  child: DropdownButtonHideUnderline(
-                    child: Obx(
-                      () => DropdownButtonFormField2(
-                        isExpanded: true,
-                        validator: (value) {
-                          return 
-                          
-                          controller
-                              .warehouseNamevalidator(value as String);
-                        },
-                        isDense: true,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                            contentPadding:
-                                const EdgeInsets.only(left: 10, right: 10),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 115, 214, 120)
-                                  // Colors.lightBlueAccent
-                                  ),
-                            ),
-                            hintText: "Select warehouse",
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Colors.white),
-                                borderRadius: BorderRadius.circular(5))),
-                        items: controller.users
-                            .map(
-                              (item) =>  DropdownMenuItem<String>(
-                                value: item.id,
-                                
-                                child: Text(
-                                  item.name,
-                                  // style: DefaultTextStyle.of(context)
-                                  //     .style
-                                  //     .copyWith(
-                                  //         fontStyle: FontStyle.italic),
-                                  overflow: TextOverflow.ellipsis,
+                AbsorbPointer(
+                  absorbing: controller.isLoadingWarehouse?true:false,
+                  child: Opacity(
+                    opacity: controller.isLoadingWarehouse?0.5:1,
+                    child: SizedBox(
+                      child: DropdownButtonHideUnderline(
+                        child: Obx(
+                          () => DropdownButtonFormField2(
+                            isExpanded: true,
+                            validator: (value) {
+                              return 
+                              
+                              controller
+                                  .warehouseNamevalidator(value as String);
+                            },
+                            isDense: true,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            decoration: InputDecoration(
+                                contentPadding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color.fromARGB(255, 115, 214, 120)
+                                      // Colors.lightBlueAccent
+                                      ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        iconSize: 20,
-                        dropdownMaxHeight: 250,
-                        itemHeight: 40,
-                        itemPadding: const EdgeInsets.only(left: 14, right: 14),
-                        buttonHeight: 52,
-                        dropdownElevation: 4,
-                        dropdownPadding: null,
-                        dropdownDecoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2),
-                            border: Border.all(
-                                color: Colors.transparent, width: 0)),
-                        scrollbarAlwaysShow: true,
-                        scrollbarRadius: const Radius.circular(2),
-                        scrollbarThickness: 4,
-                        onChanged: (value) async {
-                          controller.setSelected(value as String);
-                          //controller.listRefresh();
-
-                           await controller.manuFactureApi();
-                          print(controller.warehouseselected.value);
-                        },
-                        value:
-                            
-
-                            controller.warehouseselected.value.isNotEmpty
-                                ? controller.warehouseselected.value
-                                : null,
+                                hintText: "Select warehouse",
+                                border: OutlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.white),
+                                    borderRadius: BorderRadius.circular(5))),
+                            items: controller.users
+                                .map(
+                                  (item) =>  DropdownMenuItem<String>(
+                                    value: item.id,
+                                    
+                                    child: Text(
+                                      item.name,
+                                      // style: DefaultTextStyle.of(context)
+                                      //     .style
+                                      //     .copyWith(
+                                      //         fontStyle: FontStyle.italic),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            iconSize: 20,
+                            dropdownMaxHeight: 250,
+                            itemHeight: 40,
+                            itemPadding: const EdgeInsets.only(left: 14, right: 14),
+                            buttonHeight: 52,
+                            dropdownElevation: 4,
+                            dropdownPadding: null,
+                            dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(2),
+                                border: Border.all(
+                                    color: Colors.transparent, width: 0)),
+                            scrollbarAlwaysShow: true,
+                            scrollbarRadius: const Radius.circular(2),
+                            scrollbarThickness: 4,
+                            onChanged: (value) async {
+                              controller.setSelected(value as String);
+                              //controller.listRefresh();
+                  
+                               await controller.manuFactureApi();
+                              print(controller.warehouseselected.value);
+                            },
+                            value:
+                                
+                  
+                                controller.warehouseselected.value.isNotEmpty
+                                    ? controller.warehouseselected.value
+                                    : null,
+                          ),
+                        ),
                       ),
                     ),
                   ),

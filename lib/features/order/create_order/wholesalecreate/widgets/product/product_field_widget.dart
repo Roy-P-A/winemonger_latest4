@@ -30,6 +30,22 @@ class ProductField extends StatelessWidget {
               ),
               Obx(
                 () => TypeAheadFormField(
+                  noItemsFoundBuilder:(context) =>  Container(
+                    padding: EdgeInsets.symmetric(vertical: 30),
+                        height: 150,
+                        child: Column(
+                          children: [
+                            Center(
+                              child: controller.isLoadingProduct?const SizedBox(height: 30,width: 30,
+                              child:   CircularProgressIndicator(strokeWidth: 3,
+                              color:  Color(0xffcae3a8),),):const SizedBox(),
+                            ),
+                            SizedBox(height: 10,),
+                          const   Text("loading....!")
+                          ],
+                        ),
+                      ), 
+
                   suggestionsBoxVerticalOffset: 0.0,
                   minCharsForSuggestions: 1,
                   textFieldConfiguration: TextFieldConfiguration(
