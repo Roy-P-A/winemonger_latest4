@@ -98,7 +98,10 @@ class ConfirmProductWidgets extends StatelessWidget {
                     ),
                     TextFormField(
                       controller: controller.quantityController.value,
-                      validator: (value) {
+                      validator: (value)
+                      
+                      
+                       {
                         if (controller.quantityController.value.text.isEmpty) {
                           return "Enter a number";
                         } else {

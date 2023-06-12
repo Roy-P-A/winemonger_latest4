@@ -44,7 +44,7 @@ class OrderedProductWidget extends StatelessWidget {
                           child: const Text(
                             "Cost",
                             // style: TextStyle(color: Color(0xffa1a1a1)),
-                            style: const TextStyle(
+                            style:  TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 13),
                           ),
                         ),

@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../models/customer_model.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleadjustmentlistmodel.dart';
+import '../../../../models/ordermodel/create_order/wholesale/orderwholesalecreateorder.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalefilterproductmodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesalemanufacturermodel.dart';
 import '../../../../models/ordermodel/create_order/wholesale/orderwholesaleselectaddadjustmentstoordersmodel.dart';
@@ -23,20 +24,24 @@ import 'widgets/warehouse/warehouse_widget.dart';
 
 class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
-  final _isLoadingWarehouse=true.obs;
-  bool get isLoadingWarehouse=>_isLoadingWarehouse.value;
 
 
-  final _isLoadingManufacture=true.obs;
-  bool get isLoadingManufacture=>_isLoadingManufacture.value;
+
+  final _isLoadingWarehouse = true.obs;
+  bool get isLoadingWarehouse => _isLoadingWarehouse.value;
+
+  final _isLoadingManufacture = true.obs;
+  bool get isLoadingManufacture => _isLoadingManufacture.value;
+
+  final _isLoadingProduct = true.obs;
+  bool get isLoadingProduct => _isLoadingProduct.value;
+
+  final _isLoadingAdjustment = true.obs;
+  bool get isLoadingAdjustment => _isLoadingAdjustment.value;
 
 
-   final _isLoadingProduct=true.obs;
-  bool get isLoadingProduct=>_isLoadingProduct.value;
-
-     final _isLoadingAdjustment=true.obs;
-  bool get isLoadingAdjustment=>_isLoadingAdjustment.value;
-
+  final _isProductButtonProgress=true.obs;
+  bool get isProductButtonProgress=>_isProductButtonProgress.value;
 
   var isLoading = false.obs;
 
@@ -82,7 +87,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
 //   var RemoveAdjustmentModelEntity = RemoveAdjustment().obs;
 
-//   var CreateOrderModelEntity = CreateOrderModel().obs;
+  var createOrderModelEntity = OrderWholeSaleCreateOrderModel().obs;
 
 //   var BulklistModelEntity =
 //       BulklistModel(dataOr2: DataOr2(), dataOr1: DataOr1());
@@ -91,7 +96,6 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   final addToOrders = false.obs;
   final addToOrders1 = false.obs;
   final addadjustments = true.obs;
-  
 
   final GlobalKey<FormState> formKey1 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey2 = GlobalKey<FormState>();
@@ -99,6 +103,19 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
   final GlobalKey<FormState> formKey4 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey5 = GlobalKey<FormState>();
   final GlobalKey<FormState> formKey6 = GlobalKey<FormState>();
+
+
+changeProductButtonStateFalse(){
+
+  _isProductButtonProgress.value=false;
+  update();
+}
+changeProductButtonStateTrue(){
+
+  _isProductButtonProgress.value=true;
+  update();
+}
+  
 
   void checkProductButton() {
     final formKey1State = formKey1.currentState;
@@ -120,36 +137,7 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
     }
   }
 
-  // void checkProductButton(){
-
-  // final isValid1 =  formKey1.currentState!.validate();
-  //   final isValid2 = formKey2.currentState!.validate();
-  //   final isValid3 = formKey3.currentState!.validate();
-  //   final isValid4 = formKey4.currentState!.validate();
-  //   Get.focusScope!.unfocus();
-
-  //   if (isValid1 && isValid2 && isValid3 && isValid4) {
-  //      formKey1.currentState!.save();
-  //     formKey2.currentState!.save();
-  //     formKey3.currentState!.save();
-  //     formKey4.currentState!.save();
-  //   }
-  // }
-
-//   // fieldRefresh() {
-//   //   // customerController1.value.clear();
-//   //   // customerController2.value.clear();
-//   //   // productController.value.clear();
-//   //   // productController1.value.clear();
-//   //   // quantityController.value.clear();
-//   //   // quantityController1.value.clear();
-//   //   // operatorController.value.clear();
-//   // }
-
-//   listRefresh() {
-//     manufactureModelEntity.value =
-//         ManuFactureModel(dataone: List<DatumOne>.empty(growable: true));
-//   }
+ 
 
   var users = <HouseUser>[const HouseUser("0", "select warehouse")].obs;
   var warehouseselected = "0".obs;
@@ -220,47 +208,41 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
 
   @override
   void onInit() async {
-     await WareHouseApi();
-    await adjustmentlistApi();
+    await WareHouseApi();
+
+    
+          await adjustmentlistApi();
+    
+
     // TODO: implement onInit
     super.onInit();
-   
   }
 
   @override
   void onClose() {
-    // customerController1.value.dispose();
-    // customerController2.value.dispose();
+    customerController1.value.clear();
+    customerController2.value.clear();
     warehouseselected.value = '0';
     manufactureselected.value = '0';
-    // productController.value.dispose();
-    // productController1.value.dispose();
+    productController.value.clear();
+    productController1.value.clear();
     super.onClose();
     update();
   }
 
   @override
   void dispose() {
+     customerController1.value.dispose();
+    customerController2.value.dispose();
+    productController.value.dispose();
+    productController1.value.dispose();
+
+
+
     super.dispose();
   }
 
-  // fieldClear() {
-  //   customerController1.value.clear();
-  //   customerController2.value.clear();
-  //   warehouseselected.value = '0';
-  //   manufactureselected.value = '0';
-  //   productController.value.clear();
-  //   productController1.value.clear();
-  //   refresh();
-  //   update();
-  // }
 
-//   filediterator() {
-//     //var temp = users.value.first;
-//     // users2.value.clear(); //for manufactures
-//     //users.add(temp);
-//     //users2.value = [User2("0", "select manufacturer")];
-//   }
 
 // //---------------oninit call of controller-----------------\\
 
@@ -290,17 +272,16 @@ class WholeSaleCreateController extends GetxController with SnackbarMixin {
               warehouseModelEntity.value.data[i].warehouseId ?? "",
               warehouseModelEntity.value.data[i].warehouseName ?? ""));
         }
-update();
+        update();
         _isLoadingWarehouse(false);
       } else {
-           _isLoadingWarehouse(false);
+        _isLoadingWarehouse(false);
         throw Exception('failed to load');
       }
     } catch (e) {
-         _isLoadingWarehouse(false);
+      _isLoadingWarehouse(false);
       print(e.toString());
     }
- 
   }
 
 //   Future<void> customerDetailApi(value) async {
@@ -357,8 +338,8 @@ update();
             manufactureModelEntity.value.data3[i].manName!,
           ));
         }
-update();
- _isLoadingManufacture(false);
+        update();
+        _isLoadingManufacture(false);
         // print("active");
         // print(manufactureModelEntity.value.toJson());
       } else {
@@ -370,7 +351,6 @@ update();
       _isLoadingManufacture(false);
       print(() => e.toString());
     }
-  
   }
 
   Future<void> filterProductApi() async {
@@ -382,6 +362,7 @@ update();
       endpoint,
     );
     try {
+      _isLoadingProduct(true);
       var response = await http.post(url,
           headers: headers,
           body: jsonEncode({
@@ -399,15 +380,18 @@ update();
         print("data found");
         print(response.toString());
         print(filterProductModelEntity.value.toJson());
+
+        update();
+        _isLoadingProduct(false);
       } else {
+        _isLoadingProduct(false);
         print(" no data found");
         throw Exception('failed to load');
       }
     } catch (e) {
+      _isLoadingProduct(false);
       print(() => e.toString());
     }
-    update();
-    refresh();
   }
 
   Future<void> productButtonApi() async {
@@ -420,7 +404,7 @@ update();
       endpoint,
     );
     try {
-      _isLoadingProduct(true);
+
       var response = await http.post(
         url,
         headers: headers,
@@ -433,19 +417,14 @@ update();
                 jsonDecode(response.body));
         print("button active");
         print(productButtonModelEntity.value.toJson());
-update();
-         _isLoadingProduct(false);
       } else {
-         _isLoadingProduct(false);
         print("button inactive");
         throw Exception("failed to select button");
       }
     } catch (e) {
-
-       _isLoadingProduct(false);
       print(e.toString());
     }
-   
+    update();
   }
 
   Future<void> addToOrdersValidations() async {
@@ -466,7 +445,7 @@ update();
       selectButtonToAddToOrders.value = false;
       await bulklist1Api();
       update();
-      refresh();
+      
       await totalcalculation();
     }
   }
@@ -574,7 +553,7 @@ update();
 
   totalcalculation() async {
     // var agregate;
-    total2=0;
+    total2 = 0;
     for (int i = 0; i < bulkAddAdjustmentslist.value.value.length; i++) {
       var agregate =
           double.parse(bulkAddAdjustmentslist.value.value[i].total!.toString());
@@ -604,11 +583,11 @@ update();
     if (isSuccess) {
       grandTotal.value = total2 + adjustment;
 
-      isSuccess=false;
+      isSuccess = false;
     } else {
       grandTotal.value = total2 - adjustment;
 
-         isSuccess=false;
+      isSuccess = false;
     }
 
     print("haiii${grandTotal.value}helio");
@@ -707,7 +686,7 @@ update();
       'Cookie': cooKie,
     };
     try {
-    _isLoadingAdjustment(true);
+      _isLoadingAdjustment(true);
       var url = Uri.http(baseUrl, endpoint);
 
       var response = await http.get(
@@ -732,21 +711,19 @@ update();
           );
         }
 
-
         update();
         _isLoadingAdjustment(false);
         print("Adjustment active");
         print(adjustmentListModelEntity.value.toJson());
       } else {
-             _isLoadingAdjustment(false);
+        _isLoadingAdjustment(false);
         print("adjustmet faild");
         throw Exception('failed to select adjstmnt');
       }
     } catch (e) {
-           _isLoadingAdjustment(false);
+      _isLoadingAdjustment(false);
       print(e.toString());
     }
-  
   }
 
   Future<void> bulklistApi() async {
@@ -834,7 +811,6 @@ update();
       debugPrint("-------------ADJUSTMENT API catch end---------");
       print(e.toString());
     }
-    
   }
 
   findIndex(dynamic operator) {
@@ -886,100 +862,102 @@ update();
 //   //   List bulklist =
 //   // }
 
-//   Future<void> bulklist3Api() async {
-//     // orderBulklist.value.value.add(AddToOrderButtonModelEntity.value.data7);
-//     // orderBulklist.value.value
-//     //     .add(AddAdjustmentsToOrdersModelEntity.value.data10);
-//     // debugPrint(orderBulklist.value.value.toString());
-//     // addToOrders.value = true;
-//     // update();
-//     await createOrderValidation();
-//   }
+  Future<void> bulklist3Api() async {
+    // orderBulklist.value.value.add(AddToOrderButtonModelEntity.value.data7);
+    // orderBulklist.value.value
+    //     .add(AddAdjustmentsToOrdersModelEntity.value.data10);
+    // debugPrint(orderBulklist.value.value.toString());
+    // addToOrders.value = true;
+    // update();
+    await createOrderValidation();
+  }
 
-  // Future<void> createOrderValidation() async {
-  //   await createOrderApi(
-  //     orderlineIds: {
-  //       AddAdjustmentsToOrdersModelEntity.value.data10.id,
-  //       AddToOrderButtonModelEntity.value.data7.id
-  //     },
-  //     manufacturer: manufactureselected.value,
-  //     preorderlineId: AddToOrderButtonModelEntity.value.data7.preOrderlineId,
-  //   );
+  Future<void> createOrderValidation() async {
+    await createOrderApi(
+      orderlineIds: "${addAdjustmentsToOrdersModelEntity.value.data10.id},${addToOrderButtonModelEntity.value.data7.id}",
+      manufacturer: manufactureselected.value,
+      preorderlineId: addToOrderButtonModelEntity.value.data7.preOrderlineId,
+    );
 
-  //   // await createOrderApi();
-  //   addToOrders.value = true;
-  //   // addadjustments.value = false;
-  // }
+    // await createOrderApi();
+    addToOrders.value = true;
+    // addadjustments.value = false;
+  }
 
-//   Future<void> createOrderApi(
-//       {orderlineIds, manufacturer, preorderlineId}) async {
-//     var baseUrl = 'winemonger.nintriva.com';
-//     var endpoint = '/api/create/orders';
-//     var headers = {
-//       "APIKEY": apiKey,
-//       'Cookie': cooKie,
-//     };
+  Future<void> createOrderApi(
+      {orderlineIds, manufacturer, preorderlineId}) async {
 
-//     try {
-//       debugPrint("----------Create order API START-------");
-//       var url = Uri.http(baseUrl, endpoint);
-//       var response = await http.post(
-//         url,
-//         headers: headers,
-//         body: jsonEncode({
-//           "Orders": {
-//             "customer_id": "1212",
-//             "total": "120.00",
-//             "is_wholesale": 1,
-//             "owner_user_id": "101",
-//             "new_owner_user_id": "",
-//             "set_new_owner": 0
-//           },
-//           "is_mobile": 1,
-//           "order_line_ids":
+        print(orderlineIds);
+         print(manufacturer);
+          print(preorderlineId);
 
-//               // "",
-//               // "1673683",
-//               orderlineIds.toString(),
-//           "manufacturer":
-//               // "",
-//               // "253",
-//               manufacturer,
-//           "product_id": "",
-//           "qty":
-//               // "",
-//               " ${quantityController1.value.text}",
-//           "line_sku": "",
-//           "line_dsc": "",
-//           "adjustment_id": "",
-//           "pre_orderline_id":
-//               // "",
-//               // "10012334",
-//               preorderlineId,
-//           "order_payment_id": ""
-//         }),
-//       );
-//       print('---${response.body}-----');
-//       if (response.statusCode == 200) {
-//         CreateOrderModelEntity.value =
-//             CreateOrderModel.fromJson(jsonDecode(response.body));
-//         showsuccessSnackbar(
-//             title: "Success", message: "Successfully create the order!");
-//         debugPrint("----------Create order API succes End-------");
-//         print("oder created");
-//         print(CreateOrderModelEntity.value.toJson());
-//       } else {
-//         debugPrint("---------- API failed End-------");
-//         print("failed to create order");
-//         showErrorSnackbar(title: "failed", message: "failed to create order");
+    var baseUrl = 'winemonger.nintriva.com';
+    var endpoint = '/api/create/orders';
+    var headers = {
+      "APIKEY": apiKey,
+      'Cookie': cooKie,
+    };
 
-//         throw Exception();
-//       }
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//     update();
-//   }
+    try {
+      debugPrint("----------Create order API START-------");
+      var url = Uri.http(baseUrl, endpoint);
+      var response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode({
+          "Orders": {
+            "customer_id": "1243",
+            "total":grandTotal.value.toString() ,
+            "is_wholesale": 1,
+            "owner_user_id": "101",
+            "new_owner_user_id": "",
+            "set_new_owner": 0
+          },
+          "is_mobile": 1,
+          "order_line_ids":
+
+              // "",
+              // "1673683",
+              orderlineIds.toString(),
+          "manufacturer":
+              // "",
+              // "253",
+              manufacturer.toString(),
+          "product_id": "",
+          "qty":
+              // "",
+              " ${quantityController1.value.text}",
+          "line_sku": "",
+          "line_dsc": "",
+          "adjustment_id": "",
+          "pre_orderline_id":
+              // "",
+              // "10012334",
+              preorderlineId.toString(),
+          "order_payment_id": ""
+        }),
+      );
+      print('---${response.body}-----');
+      if (response.statusCode == 200) {
+        createOrderModelEntity.value =
+            OrderWholeSaleCreateOrderModel.fromJson(jsonDecode(response.body));
+        showSuccessSnackbar(
+            title: "Success", message: "Successfully create the order!");
+        debugPrint("----------Create order API succes End-------");
+        print("oder created");
+        print(createOrderModelEntity.value.toJson());
+      } else {
+        debugPrint("---------- API failed End-------");
+        print("failed to create order");
+        showErrorSnackbar(title: "failed", message: "failed to create order");
+
+        throw Exception();
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    update();
+  }
 }
 
 

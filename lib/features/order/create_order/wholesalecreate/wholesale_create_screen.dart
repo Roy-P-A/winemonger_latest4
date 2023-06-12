@@ -60,6 +60,7 @@ const   WholeSaleCreateOrderList({Key? key}) : super(key: key);
               controller.addToOrders.value == true
                   ? const OrderedProductWidget()
                   : Container(),
+            
 controller.addToOrders.value==true?
               const AdjustmentWidget():Container(),
               const SizedBox(
@@ -98,11 +99,20 @@ controller.addToOrders.value==true?
                 ),
               ],
             ),
-            child: const Text("Select Product",
+            child: controller.isProductButtonProgress==true?
+            
+             const Text("Select Product",
                 style: TextStyle(
-                    fontWeight: FontWeight.w600, color: Colors.black)),
+                    fontWeight: FontWeight.w600, color: Colors.black)):const SizedBox(
+                      height: 30,width: 30,
+                      child: CircularProgressIndicator(strokeWidth: 3,color: Colors.green
+                      
+                      
+                      
+                      ,))
           ),
           onTap: () async {
+controller.changeProductButtonStateFalse();
 
 controller.checkProductButton();
 
@@ -117,6 +127,9 @@ await controller.productButtonApi();
                 null) {
               controller.selectButtonToAddToOrders.value = true;
             }
+
+
+            controller.changeProductButtonStateTrue();
           },
         ),
       ],
@@ -174,7 +187,7 @@ await controller.productButtonApi();
                       fontWeight: FontWeight.w600, color: Colors.black)),
             ),
             onTap: () {
-              // _controller.createOrder();
+            controller.createOrderValidation();
             },
           ),
         ],
